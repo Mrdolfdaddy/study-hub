@@ -1,37 +1,37 @@
 import { initializeApp } from "https://www.gstatic.com/firebasejs/11.10.0/firebase-app.js";
 
 import {
-getAuth,
-createUserWithEmailAndPassword,
-signInWithEmailAndPassword,
-signOut,
-onAuthStateChanged
+    getAuth,
+    createUserWithEmailAndPassword,
+    signInWithEmailAndPassword,
+    signOut,
+    onAuthStateChanged
 } from "https://www.gstatic.com/firebasejs/11.10.0/firebase-auth.js";
 
 import {
-getFirestore,
-doc,
-setDoc,
-getDoc
+    getFirestore,
+    doc,
+    setDoc,
+    getDoc
 } from "https://www.gstatic.com/firebasejs/11.10.0/firebase-firestore.js";
 
 
 
 const firebaseConfig = {
 
-apiKey: "AIzaSyBZnvUAu7dXoxSMnlvhvsVkmOUswwPDEnc",
+    apiKey: "AIzaSyBZnvUAu7dXoxSMnlvhvsVkmOUswwPDEnc",
 
-authDomain: "study-hub-779af.firebaseapp.com",
+    authDomain: "study-hub-779af.firebaseapp.com",
 
-projectId: "study-hub-779af",
+    projectId: "study-hub-779af",
 
-storageBucket: "study-hub-779af.firebasestorage.app",
+    storageBucket: "study-hub-779af.firebasestorage.app",
 
-messagingSenderId: "1089929857276",
+    messagingSenderId: "1089929857276",
 
-appId: "1:1089929857276:web:3d1feec6214ad22e9fef79",
+    appId: "1:1089929857276:web:3d1feec6214ad22e9fef79",
 
-measurementId: "G-308HJ8VG7G"
+    measurementId: "G-308HJ8VG7G"
 
 };
 
@@ -50,31 +50,65 @@ let tasks = [];
 
 
 
-
 // LOGIN
 
 window.login = async function(){
 
-let email = document.getElementById("email").value;
+    const email =
+    document.getElementById("email").value;
 
-let password = document.getElementById("password").value;
+    const password =
+    document.getElementById("password").value;
+
+    const message =
+    document.getElementById("loginMessage");
 
 
-try {
+    message.innerText = "Logging in...";
 
-await signInWithEmailAndPassword(
-auth,
-email,
-password
-);
 
-}
+    try {
 
-catch(error){
+        const result = await signInWithEmailAndPassword(
+            auth,
+            email,
+            password
+        );
 
-document.getElementById("loginMessage").innerText = error.message;
 
-}
+        console.log(
+            "LOGIN SUCCESS",
+            result.user.email
+        );
+
+
+        message.innerText = "Login successful";
+
+
+        document
+        .getElementById("loginScreen")
+        .classList.add("hidden");
+
+
+        document
+        .getElementById("app")
+        .classList.remove("hidden");
+
+
+        await loadData();
+
+
+    }
+
+
+    catch(error){
+
+        console.log(error);
+
+        message.innerText =
+        error.message;
+
+    }
 
 };
 
@@ -84,31 +118,48 @@ document.getElementById("loginMessage").innerText = error.message;
 
 // CREATE ACCOUNT
 
+
 window.signup = async function(){
 
-let email = document.getElementById("email").value;
+    const email =
+    document.getElementById("email").value;
 
-let password = document.getElementById("password").value;
+
+    const password =
+    document.getElementById("password").value;
 
 
-try {
+    const message =
+    document.getElementById("loginMessage");
 
-await createUserWithEmailAndPassword(
-auth,
-email,
-password
-);
 
-}
+    try {
 
-catch(error){
 
-document.getElementById("loginMessage").innerText = error.message;
+        await createUserWithEmailAndPassword(
+            auth,
+            email,
+            password
+        );
 
-}
+
+        message.innerText =
+        "Account created!";
+
+
+    }
+
+
+    catch(error){
+
+        console.log(error);
+
+        message.innerText =
+        error.message;
+
+    }
 
 };
-
 
 
 
@@ -116,9 +167,10 @@ document.getElementById("loginMessage").innerText = error.message;
 
 // LOGOUT
 
+
 window.logout = async function(){
 
-await signOut(auth);
+    await signOut(auth);
 
 };
 
@@ -127,38 +179,45 @@ await signOut(auth);
 
 
 
-
-// USER CHECK
+// CHECK USER
 
 
 onAuthStateChanged(auth, async(user)=>{
 
 
-if(user){
-
-document.getElementById("loginScreen")
-.classList.add("hidden");
+    if(user){
 
 
-document.getElementById("app")
-.classList.remove("hidden");
+        document
+        .getElementById("loginScreen")
+        .classList.add("hidden");
 
 
-await loadData();
-
-}
-
-
-else{
-
-document.getElementById("loginScreen")
-.classList.remove("hidden");
+        document
+        .getElementById("app")
+        .classList.remove("hidden");
 
 
-document.getElementById("app")
-.classList.add("hidden");
+        await loadData();
 
-}
+
+    }
+
+
+    else{
+
+
+        document
+        .getElementById("loginScreen")
+        .classList.remove("hidden");
+
+
+        document
+        .getElementById("app")
+        .classList.add("hidden");
+
+
+    }
 
 
 });
@@ -173,16 +232,22 @@ document.getElementById("app")
 // PAGE SWITCH
 
 
-window.showPage = function(page){
-
-document.querySelectorAll(".page")
-.forEach(p=>{
-p.classList.add("hidden");
-});
+window.showPage=function(page){
 
 
-document.getElementById(page)
-.classList.remove("hidden");
+    document
+    .querySelectorAll(".page")
+    .forEach(section=>{
+
+        section.classList.add("hidden");
+
+    });
+
+
+    document
+    .getElementById(page)
+    .classList.remove("hidden");
+
 
 };
 
@@ -192,21 +257,24 @@ document.getElementById(page)
 
 
 
-
-// LEARNING PLAN SWITCH
+// LEARNING PLAN
 
 
 window.showLearning=function(section){
 
 
-document.querySelectorAll(".learningPage")
-.forEach(p=>{
-p.classList.add("hidden");
-});
+    document
+    .querySelectorAll(".learningPage")
+    .forEach(page=>{
+
+        page.classList.add("hidden");
+
+    });
 
 
-document.getElementById(section)
-.classList.remove("hidden");
+    document
+    .getElementById(section)
+    .classList.remove("hidden");
 
 
 };
@@ -221,25 +289,24 @@ document.getElementById(section)
 // CLOCK
 
 
-function clock(){
+function updateClock(){
 
-let now=new Date();
-
-
-document.getElementById("time").innerText =
-now.toLocaleTimeString();
+    let now = new Date();
 
 
-document.getElementById("date").innerText =
-now.toDateString();
+    document.getElementById("time").innerText =
+    now.toLocaleTimeString();
 
+
+    document.getElementById("date").innerText =
+    now.toDateString();
 
 }
 
 
-setInterval(clock,1000);
+setInterval(updateClock,1000);
 
-clock();
+updateClock();
 
 
 
@@ -255,25 +322,28 @@ clock();
 window.addTask=function(){
 
 
-let input=document.getElementById("taskInput");
+    let input =
+    document.getElementById("taskInput");
 
 
-if(input.value.trim()=="")
-return;
+    if(input.value.trim()=="")
+    return;
 
 
-tasks.push(input.value);
+    tasks.push(input.value);
 
 
-input.value="";
+    input.value="";
 
 
-displayTasks();
+    displayTasks();
 
-saveData();
+
+    saveData();
 
 
 };
+
 
 
 
@@ -282,31 +352,29 @@ saveData();
 function displayTasks(){
 
 
-let list=document.getElementById("taskList");
+    let list =
+    document.getElementById("taskList");
 
 
-list.innerHTML="";
+    list.innerHTML="";
 
 
-tasks.forEach((task,index)=>{
+    tasks.forEach((task,index)=>{
 
 
-let li=document.createElement("li");
+        let li =
+        document.createElement("li");
 
 
-li.innerHTML =
-
-task +
-
-` <button onclick="removeTask(${index})">
-❌
-</button>`;
+        li.innerHTML =
+        task +
+        ` <button onclick="removeTask(${index})">❌</button>`;
 
 
-list.appendChild(li);
+        list.appendChild(li);
 
 
-});
+    });
 
 
 }
@@ -315,22 +383,19 @@ list.appendChild(li);
 
 
 
-
 window.removeTask=function(index){
 
 
-tasks.splice(index,1);
+    tasks.splice(index,1);
 
 
-displayTasks();
+    displayTasks();
 
-saveData();
+
+    saveData();
 
 
 };
-
-
-
 
 
 
@@ -343,7 +408,7 @@ saveData();
 
 window.saveNotes=function(){
 
-saveData();
+    saveData();
 
 };
 
@@ -355,18 +420,16 @@ saveData();
 
 
 
-
-// LEARNING SAVE
+// SAVE LEARNING
 
 
 window.saveLearning=function(){
 
-saveData();
+    saveData();
 
-alert("Learning Plan Saved!");
+    alert("Learning Plan Saved!");
 
 };
-
 
 
 
@@ -379,48 +442,57 @@ alert("Learning Plan Saved!");
 function getLearningData(){
 
 
-let data={};
+    let data={};
 
 
-document.querySelectorAll(".learningPage")
-.forEach(page=>{
+    document
+    .querySelectorAll(".learningPage")
+    .forEach(page=>{
 
 
-let name=page.id;
+        let name = page.id;
 
 
-data[name]={};
+        data[name]={};
 
 
-let desc=document.getElementById(name+"Desc");
+        let desc =
+        document.getElementById(name+"Desc");
 
 
-if(desc){
+        if(desc){
 
-data[name].description=desc.value;
+            data[name].description =
+            desc.value;
+
+        }
+
+
+
+        data[name].checklist=[];
+
+
+        page
+        .querySelectorAll("input[type='checkbox']")
+        .forEach(box=>{
+
+            data[name].checklist.push(
+                box.checked
+            );
+
+        });
+
+
+
+    });
+
+
+    return data;
+
 
 }
 
 
-let checks=page.querySelectorAll("input[type='checkbox']");
-
-
-data[name].checklist=[];
-
-
-checks.forEach(c=>{
-
-data[name].checklist.push(c.checked);
-
-});
-
-
-});
-
-
-return data;
-
-}
 
 
 
@@ -428,38 +500,42 @@ return data;
 
 
 
+// FIRESTORE SAVE
 
 
 async function saveData(){
 
 
-let user=auth.currentUser;
+    const user = auth.currentUser;
 
 
-if(!user)
-return;
+    if(!user)
+    return;
 
 
-await setDoc(
 
-doc(db,"users",user.uid),
+    await setDoc(
 
-{
+        doc(db,"users",user.uid),
 
-tasks:tasks,
+        {
 
-notes:
-document.getElementById("notesArea").value,
+            tasks: tasks,
 
-learning:
-getLearningData()
+            notes:
+            document.getElementById("notesArea").value,
+
+
+            learning:
+            getLearningData()
+
+        }
+
+    );
+
 
 }
 
-);
-
-
-}
 
 
 
@@ -467,87 +543,55 @@ getLearningData()
 
 
 
+
+// LOAD DATA
 
 
 async function loadData(){
 
 
-let user=auth.currentUser;
+    const user =
+    auth.currentUser;
 
 
-let ref =
-doc(db,"users",user.uid);
+    if(!user)
+    return;
 
 
-
-let snap =
-await getDoc(ref);
-
-
-
-if(snap.exists()){
-
-
-let data=snap.data();
-
-
-tasks=data.tasks || [];
-
-
-displayTasks();
+    const ref =
+    doc(db,"users",user.uid);
 
 
 
-document.getElementById("notesArea").value =
-data.notes || "";
+    const snap =
+    await getDoc(ref);
 
 
 
-if(data.learning){
+    if(snap.exists()){
 
 
-Object.keys(data.learning).forEach(section=>{
-
-
-let info=data.learning[section];
-
-
-let desc=document.getElementById(section+"Desc");
-
-
-if(desc){
-
-desc.value=info.description || "";
-
-}
+        const data =
+        snap.data();
 
 
 
-let boxes=document
-.getElementById(section)
-.querySelectorAll("input[type='checkbox']");
+        tasks =
+        data.tasks || [];
+
+
+        displayTasks();
 
 
 
-info.checklist.forEach((value,index)=>{
-
-if(boxes[index]){
-
-boxes[index].checked=value;
-
-}
-
-});
-
-
-});
-
-
-}
+        document
+        .getElementById("notesArea")
+        .value =
+        data.notes || "";
 
 
 
-}
+    }
 
 
 }
