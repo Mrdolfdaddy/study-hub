@@ -14,7 +14,6 @@
 
 </head>
 
-
 <body>
 
 
@@ -26,33 +25,20 @@
 <h1>📚 Study Hub</h1>
 
 
-<button onclick="showPage('home')">
-🏠 Home
-</button>
+<button onclick="showPage('home')">🏠 Home</button>
 
+<button onclick="showPage('tasks')">✅ Tasks</button>
 
-<button onclick="showPage('tasks')">
-✅ Tasks
-</button>
+<button onclick="showPage('notes')">📒 Notes</button>
 
+<button onclick="showPage('learning')">📚 Learning Plan</button>
 
-<button onclick="showPage('notes')">
-📒 Notes
-</button>
+<button onclick="showPage('uno')">🎴 UNO Score</button>
 
-
-<button onclick="showPage('learning')">
-📚 Learning Plan
-</button>
-
-
-<button onclick="showPage('settings')">
-⚙ Settings
-</button>
+<button onclick="showPage('settings')">⚙ Settings</button>
 
 
 </div>
-
 
 
 
@@ -63,7 +49,6 @@
 
 
 <section id="home" class="page">
-
 
 <h2>Welcome Back 👋</h2>
 
@@ -77,18 +62,15 @@
 </div>
 
 
-
 <div class="card">
 
-<h2>Today's Focus</h2>
+<h2>Study Hub</h2>
 
 <p>
-Use your Study Hub to track your goals, skills and progress.
+Track your learning, tasks, notes and games all in one place.
 </p>
 
-
 </div>
-
 
 </section>
 
@@ -98,10 +80,7 @@ Use your Study Hub to track your goals, skills and progress.
 
 
 
-
-
 <section id="tasks" class="page hidden">
-
 
 <h2>✅ Tasks</h2>
 
@@ -131,8 +110,6 @@ Add
 
 
 
-
-
 <section id="notes" class="page hidden">
 
 
@@ -144,7 +121,7 @@ Add
 
 <textarea 
 id="notesArea"
-placeholder="Write notes here...">
+placeholder="Write notes...">
 </textarea>
 
 
@@ -164,13 +141,10 @@ Save Notes
 
 
 
-
-
 <section id="learning" class="page hidden">
 
 
 <h2>📚 Learning Plan</h2>
-
 
 
 <div class="learningButtons">
@@ -207,8 +181,6 @@ Save Notes
 
 
 
-
-
 <div id="reading" class="learningSection hidden">
 
 
@@ -216,38 +188,22 @@ Save Notes
 
 
 <textarea id="readingText"
-placeholder="Explain what you are working on...">
-</textarea>
-
+placeholder="What are you working on?"></textarea>
 
 
 <h3>Weekly Checklist</h3>
 
 
-<div class="checklist">
-
 <label><input type="checkbox"> Monday</label>
-
 <label><input type="checkbox"> Tuesday</label>
-
 <label><input type="checkbox"> Wednesday</label>
-
 <label><input type="checkbox"> Thursday</label>
-
 <label><input type="checkbox"> Friday</label>
-
 <label><input type="checkbox"> Saturday</label>
-
 <label><input type="checkbox"> Sunday</label>
 
-</div>
-
 
 </div>
-
-
-
-
 
 
 
@@ -260,38 +216,22 @@ placeholder="Explain what you are working on...">
 
 
 <textarea id="writingText"
-placeholder="Explain what you are working on...">
-</textarea>
-
+placeholder="What are you working on?"></textarea>
 
 
 <h3>Weekly Checklist</h3>
 
 
-<div class="checklist">
-
 <label><input type="checkbox"> Monday</label>
-
 <label><input type="checkbox"> Tuesday</label>
-
 <label><input type="checkbox"> Wednesday</label>
-
 <label><input type="checkbox"> Thursday</label>
-
 <label><input type="checkbox"> Friday</label>
-
 <label><input type="checkbox"> Saturday</label>
-
 <label><input type="checkbox"> Sunday</label>
 
-</div>
-
 
 </div>
-
-
-
-
 
 
 
@@ -304,80 +244,44 @@ placeholder="Explain what you are working on...">
 
 
 <textarea id="numeracyText"
-placeholder="Explain what you are working on...">
-</textarea>
-
+placeholder="What are you working on?"></textarea>
 
 
 <h3>Weekly Checklist</h3>
 
 
-<div class="checklist">
-
 <label><input type="checkbox"> Monday</label>
-
 <label><input type="checkbox"> Tuesday</label>
-
 <label><input type="checkbox"> Wednesday</label>
-
 <label><input type="checkbox"> Thursday</label>
-
 <label><input type="checkbox"> Friday</label>
-
 <label><input type="checkbox"> Saturday</label>
-
 <label><input type="checkbox"> Sunday</label>
 
-</div>
 
-
-</div>
-
-
-
-
-
-
-
-
-
-<div id="careers" class="learningSection hidden">
+</div><div id="careers" class="learningSection hidden">
 
 
 <h2>💼 Careers Education</h2>
 
 
 <textarea id="careersText"
-placeholder="Explain your career goals and skills...">
-</textarea>
-
+placeholder="What are your career goals and skills you are building?"></textarea>
 
 
 <h3>Weekly Checklist</h3>
 
 
-<div class="checklist">
-
 <label><input type="checkbox"> Monday</label>
-
 <label><input type="checkbox"> Tuesday</label>
-
 <label><input type="checkbox"> Wednesday</label>
-
 <label><input type="checkbox"> Thursday</label>
-
 <label><input type="checkbox"> Friday</label>
-
 <label><input type="checkbox"> Saturday</label>
-
 <label><input type="checkbox"> Sunday</label>
 
-</div>
-
 
 </div>
-
-
 
 
 
@@ -392,31 +296,19 @@ placeholder="Explain your career goals and skills...">
 
 
 <textarea id="relationshipsText"
-placeholder="Explain your goals and reflections...">
-</textarea>
-
+placeholder="Goals, reflections and things you are learning..."></textarea>
 
 
 <h3>Weekly Checklist</h3>
 
 
-<div class="checklist">
-
 <label><input type="checkbox"> Monday</label>
-
 <label><input type="checkbox"> Tuesday</label>
-
 <label><input type="checkbox"> Wednesday</label>
-
 <label><input type="checkbox"> Thursday</label>
-
 <label><input type="checkbox"> Friday</label>
-
 <label><input type="checkbox"> Saturday</label>
-
 <label><input type="checkbox"> Sunday</label>
-
-</div>
 
 
 </div>
@@ -426,6 +318,147 @@ placeholder="Explain your goals and reflections...">
 <button onclick="saveLearning()">
 💾 Save Learning Plan
 </button>
+
+
+</section>
+
+
+
+
+
+
+
+
+
+<section id="uno" class="page hidden">
+
+
+<h2>🎴 UNO Score Sheet</h2>
+
+
+<div class="card">
+
+
+<h3>Add Player</h3>
+
+
+<input id="unoPlayerName" placeholder="Player name">
+
+
+<button onclick="addUnoPlayer()">
+➕ Add Player
+</button>
+
+
+</div>
+
+
+
+
+
+<div class="card">
+
+
+<h3>Players</h3>
+
+
+<table>
+
+
+<thead>
+
+<tr>
+
+<th>Name</th>
+
+<th>Round Score</th>
+
+<th>Total</th>
+
+<th></th>
+
+</tr>
+
+</thead>
+
+
+<tbody id="unoPlayers">
+
+</tbody>
+
+
+</table>
+
+
+</div>
+
+
+
+
+
+
+
+<div class="card">
+
+
+<h3>Stats</h3>
+
+
+<p id="unoWinner">
+🏆 Winner: -
+</p>
+
+
+<p id="unoRound">
+🎲 Round: 1
+</p>
+
+
+<p id="unoHighScore">
+🔥 Highest Round: -
+</p>
+
+
+<p id="unoAverage">
+📊 Average Score: -
+</p>
+
+
+</div>
+
+
+
+
+
+
+
+<div class="card">
+
+
+<button onclick="nextUnoRound()">
+➡️ Next Round
+</button>
+
+
+<button onclick="randomUnoPlayer()">
+🎲 Random Player
+</button>
+
+
+<button onclick="unoChallenge()">
+😂 UNO Challenge
+</button>
+
+
+<button onclick="resetUno()">
+🗑 Reset Game
+</button>
+
+
+<h3 id="unoFun"></h3>
+
+
+</div>
 
 
 
@@ -447,9 +480,11 @@ placeholder="Explain your goals and reflections...">
 
 <div class="card">
 
+
 <p>
-Settings coming soon.
+More settings coming soon.
 </p>
+
 
 </div>
 
@@ -459,8 +494,9 @@ Settings coming soon.
 
 
 
-</div>
 
+
+</div>
 
 </div>
 

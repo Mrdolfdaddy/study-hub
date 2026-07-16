@@ -12,14 +12,14 @@ body {
 
 
 
-
-
-/* LAYOUT */
-
+/* MAIN LAYOUT */
 
 #app {
+
     display: flex;
+
     min-height: 100vh;
+
 }
 
 
@@ -52,23 +52,21 @@ body {
 
     width: 100%;
 
-    padding: 12px;
-
     margin-bottom: 10px;
 
-    background: #374151;
-
-    color: white;
+    padding: 12px;
 
     border: none;
 
     border-radius: 10px;
 
+    background: #374151;
+
+    color: white;
+
     cursor: pointer;
 
     text-align: left;
-
-    font-size: 15px;
 
 }
 
@@ -84,11 +82,6 @@ body {
 
 
 
-
-
-/* MAIN */
-
-
 .main {
 
     flex: 1;
@@ -99,17 +92,19 @@ body {
 
 
 
-.page {
-
-    animation: fade 0.3s;
-
-}
-
 
 
 .hidden {
 
     display: none;
+
+}
+
+
+
+.page {
+
+    animation: fade 0.3s ease;
 
 }
 
@@ -128,14 +123,13 @@ body {
 
     padding: 25px;
 
-    border-radius: 15px;
-
     margin-bottom: 20px;
+
+    border-radius: 15px;
 
     box-shadow: 0 5px 15px rgba(0,0,0,0.08);
 
 }
-
 
 
 
@@ -165,7 +159,7 @@ button {
 
 button:hover {
 
-    opacity: 0.85;
+    opacity: .85;
 
 }
 
@@ -214,13 +208,13 @@ textarea {
 
 li {
 
-    background: #f1f5ff;
+    background: #eef2ff;
 
-    padding: 10px;
+    padding: 12px;
 
-    margin: 8px;
+    border-radius: 10px;
 
-    border-radius: 8px;
+    margin: 8px 0;
 
 }
 
@@ -233,21 +227,11 @@ li {
 /* LEARNING PLAN */
 
 
-.learningButtons {
-
-    margin-bottom: 20px;
-
-}
-
-
-
 .learningButtons button {
 
     margin: 5px;
 
 }
-
-
 
 
 
@@ -265,35 +249,76 @@ li {
 
 
 
-.checklist {
+.learningSection label {
 
-    display: flex;
+    display: block;
 
-    flex-direction: column;
-
-    gap: 12px;
-
-}
-
-
-
-.checklist label {
-
-    background: #f3f4f6;
+    background: #f1f5f9;
 
     padding: 12px;
 
     border-radius: 8px;
 
+    margin: 8px 0;
+
 }
 
 
 
-.checklist input {
+.learningSection input {
 
     width: auto;
 
     margin-right: 10px;
+
+}
+
+
+
+
+
+
+
+
+/* UNO */
+
+
+table {
+
+    width: 100%;
+
+    border-collapse: collapse;
+
+}
+
+
+
+th {
+
+    background: #4b6cff;
+
+    color: white;
+
+}
+
+
+
+th,
+td {
+
+    padding: 12px;
+
+    text-align: center;
+
+    border-bottom: 1px solid #ddd;
+
+}
+
+
+
+td button {
+
+    padding: 6px 10px;
 
 }
 
@@ -310,14 +335,14 @@ li {
 
     from {
 
-        opacity: 0;
+        opacity:0;
 
     }
 
 
     to {
 
-        opacity: 1;
+        opacity:1;
 
     }
 
@@ -344,7 +369,7 @@ li {
 
 .sidebar {
 
-    width: 100%;
+    width:100%;
 
 }
 
