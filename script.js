@@ -1,200 +1,553 @@
-* {
-    box-sizing: border-box;
-    font-family: Arial, sans-serif;
+import { initializeApp } from "https://www.gstatic.com/firebasejs/11.10.0/firebase-app.js";
+
+import {
+getAuth,
+createUserWithEmailAndPassword,
+signInWithEmailAndPassword,
+signOut,
+onAuthStateChanged
+} from "https://www.gstatic.com/firebasejs/11.10.0/firebase-auth.js";
+
+import {
+getFirestore,
+doc,
+setDoc,
+getDoc
+} from "https://www.gstatic.com/firebasejs/11.10.0/firebase-firestore.js";
+
+
+
+const firebaseConfig = {
+
+apiKey: "AIzaSyBZnvUAu7dXoxSMnlvhvsVkmOUswwPDEnc",
+
+authDomain: "study-hub-779af.firebaseapp.com",
+
+projectId: "study-hub-779af",
+
+storageBucket: "study-hub-779af.firebasestorage.app",
+
+messagingSenderId: "1089929857276",
+
+appId: "1:1089929857276:web:3d1feec6214ad22e9fef79",
+
+measurementId: "G-308HJ8VG7G"
+
+};
+
+
+
+const app = initializeApp(firebaseConfig);
+
+const auth = getAuth(app);
+
+const db = getFirestore(app);
+
+
+
+let tasks = [];
+
+
+
+
+
+// LOGIN
+
+window.login = async function(){
+
+let email = document.getElementById("email").value;
+
+let password = document.getElementById("password").value;
+
+
+try {
+
+await signInWithEmailAndPassword(
+auth,
+email,
+password
+);
+
+}
+
+catch(error){
+
+document.getElementById("loginMessage").innerText = error.message;
+
+}
+
+};
+
+
+
+
+
+// CREATE ACCOUNT
+
+window.signup = async function(){
+
+let email = document.getElementById("email").value;
+
+let password = document.getElementById("password").value;
+
+
+try {
+
+await createUserWithEmailAndPassword(
+auth,
+email,
+password
+);
+
+}
+
+catch(error){
+
+document.getElementById("loginMessage").innerText = error.message;
+
+}
+
+};
+
+
+
+
+
+
+// LOGOUT
+
+window.logout = async function(){
+
+await signOut(auth);
+
+};
+
+
+
+
+
+
+
+// USER CHECK
+
+
+onAuthStateChanged(auth, async(user)=>{
+
+
+if(user){
+
+document.getElementById("loginScreen")
+.classList.add("hidden");
+
+
+document.getElementById("app")
+.classList.remove("hidden");
+
+
+await loadData();
+
 }
 
 
-body {
-    margin: 0;
-    background: #f2f5ff;
-    color: #222;
+else{
+
+document.getElementById("loginScreen")
+.classList.remove("hidden");
+
+
+document.getElementById("app")
+.classList.add("hidden");
+
 }
 
 
-/* LOGIN */
+});
 
-#loginScreen {
-    height: 100vh;
-    display: flex;
-    justify-content: center;
-    align-items: center;
+
+
+
+
+
+
+
+// PAGE SWITCH
+
+
+window.showPage = function(page){
+
+document.querySelectorAll(".page")
+.forEach(p=>{
+p.classList.add("hidden");
+});
+
+
+document.getElementById(page)
+.classList.remove("hidden");
+
+};
+
+
+
+
+
+
+
+
+// LEARNING PLAN SWITCH
+
+
+window.showLearning=function(section){
+
+
+document.querySelectorAll(".learningPage")
+.forEach(p=>{
+p.classList.add("hidden");
+});
+
+
+document.getElementById(section)
+.classList.remove("hidden");
+
+
+};
+
+
+
+
+
+
+
+
+// CLOCK
+
+
+function clock(){
+
+let now=new Date();
+
+
+document.getElementById("time").innerText =
+now.toLocaleTimeString();
+
+
+document.getElementById("date").innerText =
+now.toDateString();
+
+
 }
 
 
-.loginBox {
-    background: white;
-    padding: 40px;
-    border-radius: 15px;
-    width: 350px;
-    text-align: center;
-    box-shadow: 0 10px 30px rgba(0,0,0,0.15);
-}
+setInterval(clock,1000);
 
-
-.loginBox h1 {
-    margin-bottom: 10px;
-}
-
-
-.loginBox input {
-    width: 100%;
-    padding: 12px;
-    margin: 8px 0;
-    border-radius: 8px;
-    border: 1px solid #ccc;
-}
-
-
-button {
-    background: #4b6cff;
-    color: white;
-    border: none;
-    padding: 12px 18px;
-    margin: 5px;
-    border-radius: 8px;
-    cursor: pointer;
-}
-
-
-button:hover {
-    opacity: 0.85;
-}
+clock();
 
 
 
-/* APP LAYOUT */
-
-
-#app {
-    display: flex;
-    min-height: 100vh;
-}
-
-
-.sidebar {
-    width: 240px;
-    background: #1f2937;
-    color: white;
-    padding: 20px;
-}
-
-
-.sidebar h1 {
-    font-size: 24px;
-    margin-bottom: 25px;
-}
-
-
-.sidebar button {
-    width: 100%;
-    background: #374151;
-    text-align: left;
-    margin-bottom: 8px;
-}
-
-
-.sidebar button:hover {
-    background: #4b6cff;
-}
 
 
 
-.main {
-    flex: 1;
-    padding: 30px;
-}
 
 
 
-.page {
-    animation: fade 0.3s ease;
-}
+// TASKS
+
+
+window.addTask=function(){
+
+
+let input=document.getElementById("taskInput");
+
+
+if(input.value.trim()=="")
+return;
+
+
+tasks.push(input.value);
+
+
+input.value="";
+
+
+displayTasks();
+
+saveData();
+
+
+};
 
 
 
-.card {
-    background: white;
-    padding: 25px;
-    border-radius: 15px;
-    margin-bottom: 20px;
-    box-shadow: 0 5px 15px rgba(0,0,0,0.08);
-}
 
 
-
-input,
-textarea {
-    width: 100%;
-    padding: 12px;
-    border-radius: 8px;
-    border: 1px solid #ccc;
-}
+function displayTasks(){
 
 
-
-textarea {
-    height: 200px;
-    resize: none;
-}
+let list=document.getElementById("taskList");
 
 
-
-.progress {
-    height: 20px;
-    background: #ddd;
-    border-radius: 20px;
-    overflow: hidden;
-}
+list.innerHTML="";
 
 
-#progressBar {
-    height: 100%;
-    width: 0%;
-    background: #4b6cff;
-}
+tasks.forEach((task,index)=>{
 
 
-
-ul {
-    padding-left: 20px;
-}
+let li=document.createElement("li");
 
 
-li {
-    margin: 10px;
-}
+li.innerHTML =
+
+task +
+
+` <button onclick="removeTask(${index})">
+❌
+</button>`;
 
 
+list.appendChild(li);
 
-.gameBox {
-    background: white;
-    padding: 20px;
-    border-radius: 15px;
+
+});
+
+
 }
 
 
 
-canvas {
-    background: black;
-    border-radius: 10px;
+
+
+
+window.removeTask=function(index){
+
+
+tasks.splice(index,1);
+
+
+displayTasks();
+
+saveData();
+
+
+};
+
+
+
+
+
+
+
+
+
+
+// NOTES
+
+
+window.saveNotes=function(){
+
+saveData();
+
+};
+
+
+
+
+
+
+
+
+
+
+// LEARNING SAVE
+
+
+window.saveLearning=function(){
+
+saveData();
+
+alert("Learning Plan Saved!");
+
+};
+
+
+
+
+
+
+
+
+
+
+function getLearningData(){
+
+
+let data={};
+
+
+document.querySelectorAll(".learningPage")
+.forEach(page=>{
+
+
+let name=page.id;
+
+
+data[name]={};
+
+
+let desc=document.getElementById(name+"Desc");
+
+
+if(desc){
+
+data[name].description=desc.value;
+
+}
+
+
+let checks=page.querySelectorAll("input[type='checkbox']");
+
+
+data[name].checklist=[];
+
+
+checks.forEach(c=>{
+
+data[name].checklist.push(c.checked);
+
+});
+
+
+});
+
+
+return data;
+
 }
 
 
 
-.hidden {
-    display: none;
+
+
+
+
+
+
+async function saveData(){
+
+
+let user=auth.currentUser;
+
+
+if(!user)
+return;
+
+
+await setDoc(
+
+doc(db,"users",user.uid),
+
+{
+
+tasks:tasks,
+
+notes:
+document.getElementById("notesArea").value,
+
+learning:
+getLearningData()
+
+}
+
+);
+
+
 }
 
 
 
-@keyframes fade {
 
-from {
-    opacity:0;
+
+
+
+
+
+async function loadData(){
+
+
+let user=auth.currentUser;
+
+
+let ref =
+doc(db,"users",user.uid);
+
+
+
+let snap =
+await getDoc(ref);
+
+
+
+if(snap.exists()){
+
+
+let data=snap.data();
+
+
+tasks=data.tasks || [];
+
+
+displayTasks();
+
+
+
+document.getElementById("notesArea").value =
+data.notes || "";
+
+
+
+if(data.learning){
+
+
+Object.keys(data.learning).forEach(section=>{
+
+
+let info=data.learning[section];
+
+
+let desc=document.getElementById(section+"Desc");
+
+
+if(desc){
+
+desc.value=info.description || "";
+
 }
 
-to {
-    opacity:1;
+
+
+let boxes=document
+.getElementById(section)
+.querySelectorAll("input[type='checkbox']");
+
+
+
+info.checklist.forEach((value,index)=>{
+
+if(boxes[index]){
+
+boxes[index].checked=value;
+
 }
+
+});
+
+
+});
+
+
+}
+
+
+
+}
+
 
 }

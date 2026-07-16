@@ -1,456 +1,226 @@
-// FIREBASE IMPORTS
-
-import { initializeApp } from "https://www.gstatic.com/firebasejs/11.10.0/firebase-app.js";
-
-import {
-    getAuth,
-    createUserWithEmailAndPassword,
-    signInWithEmailAndPassword,
-    signOut,
-    onAuthStateChanged
-} from "https://www.gstatic.com/firebasejs/11.10.0/firebase-auth.js";
-
-import {
-    getFirestore,
-    doc,
-    setDoc,
-    getDoc
-} from "https://www.gstatic.com/firebasejs/11.10.0/firebase-firestore.js";
-
-
-
-// FIREBASE CONFIG
-
-const firebaseConfig = {
-
-apiKey: "AIzaSyBZnvUAu7dXoxSMnlvhvsVkmOUswwPDEnc",
-
-authDomain: "study-hub-779af.firebaseapp.com",
-
-projectId: "study-hub-779af",
-
-storageBucket: "study-hub-779af.firebasestorage.app",
-
-messagingSenderId: "1089929857276",
-
-appId: "1:1089929857276:web:3d1feec6214ad22e9fef79",
-
-measurementId: "G-308HJ8VG7G"
-
-};
-
-
-
-const app = initializeApp(firebaseConfig);
-
-const auth = getAuth(app);
-
-const db = getFirestore(app);
-
-
-
-
-// LOGIN
-
-window.login = async function(){
-
-const email = document.getElementById("email").value;
-
-const password = document.getElementById("password").value;
-
-
-try {
-
-await signInWithEmailAndPassword(
-auth,
-email,
-password
-);
-
-
-}
-
-catch(error){
-
-document.getElementById("loginMessage").innerText = error.message;
-
-}
-
-};
-
-
-
-
-// SIGN UP
-
-window.signup = async function(){
-
-const email = document.getElementById("email").value;
-
-const password = document.getElementById("password").value;
-
-
-try {
-
-await createUserWithEmailAndPassword(
-auth,
-email,
-password
-);
-
-
-}
-
-catch(error){
-
-document.getElementById("loginMessage").innerText = error.message;
-
-}
-
-};
-
-
-
-
-
-// LOGOUT
-
-window.logout = async function(){
-
-await signOut(auth);
-
-};
-
-
-
-
-
-// CHECK LOGIN STATUS
-
-
-onAuthStateChanged(auth, async(user)=>{
-
-
-if(user){
-
-
-document.getElementById("loginScreen").classList.add("hidden");
-
-document.getElementById("app").classList.remove("hidden");
-
-loadData();
-
-
-}
-
-else{
-
-
-document.getElementById("loginScreen").classList.remove("hidden");
-
-document.getElementById("app").classList.add("hidden");
-
-
+* {
+    box-sizing: border-box;
+    font-family: Arial, sans-serif;
 }
 
 
-});
-
-
-
-
-
-
-// PAGE SWITCHING
-
-
-window.showPage = function(page){
-
-
-document.querySelectorAll(".page").forEach(section=>{
-
-section.classList.add("hidden");
-
-});
-
-
-document.getElementById(page).classList.remove("hidden");
-
-
-};
-
-
-
-
-
-
-// CLOCK
-
-
-function updateClock(){
-
-let now = new Date();
-
-
-document.getElementById("time").innerText =
-now.toLocaleTimeString();
-
-
-document.getElementById("date").innerText =
-now.toDateString();
-
-
+body {
+    margin: 0;
+    background: #f2f5ff;
+    color: #222;
 }
 
 
-setInterval(updateClock,1000);
-
-updateClock();
-
-
-
-
-
-
-
-// TASKS
-
-
-let tasks = [];
-
-
-
-window.addTask = async function(){
-
-
-let input = document.getElementById("taskInput");
-
-
-if(input.value.trim()=="") return;
-
-
-
-tasks.push({
-
-text: input.value,
-
-done:false
-
-});
-
-
-input.value="";
-
-
-displayTasks();
-
-saveData();
-
-
-};
-
-
-
-
-
-
-function displayTasks(){
-
-
-let list=document.getElementById("taskList");
-
-
-list.innerHTML="";
-
-
-tasks.forEach((task,index)=>{
-
-
-let li=document.createElement("li");
-
-
-li.innerHTML = `
-
-${task.text}
-
-<button onclick="removeTask(${index})">
-❌
-</button>
-
-`;
-
-
-list.appendChild(li);
-
-
-
-});
-
-
-};
-
-
-
-
-
-window.removeTask=function(index){
-
-
-tasks.splice(index,1);
-
-
-displayTasks();
-
-saveData();
-
-
-};
-
-
-
-
-
-
-
-
-// NOTES
-
-
-window.saveNotes = async function(){
-
-
-let notes =
-document.getElementById("notesArea").value;
-
-
-saveData();
-
-
-};
-
-
-
-
-
-
-
-
-
-// FIRESTORE SAVE
-
-
-async function saveData(){
-
-
-const user = auth.currentUser;
-
-
-if(!user) return;
-
-
-
-await setDoc(
-
-doc(db,"users",user.uid),
-
-{
-
-tasks:tasks,
-
-notes:
-document.getElementById("notesArea").value
-
+/* LOGIN */
+
+#loginScreen {
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
-);
+
+.loginBox {
+    background: white;
+    padding: 40px;
+    border-radius: 15px;
+    width: 350px;
+    text-align: center;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+}
 
 
+.loginBox input {
+    width: 100%;
+    padding: 12px;
+    margin: 8px 0;
+    border-radius: 8px;
+    border: 1px solid #ccc;
+}
+
+
+
+button {
+    background: #4b6cff;
+    color: white;
+    border: none;
+    padding: 12px 18px;
+    margin: 5px;
+    border-radius: 8px;
+    cursor: pointer;
+}
+
+
+button:hover {
+    opacity: 0.85;
+}
+
+
+
+/* APP */
+
+
+#app {
+    display: flex;
+    min-height: 100vh;
+}
+
+
+
+.sidebar {
+    width: 240px;
+    background: #1f2937;
+    color: white;
+    padding: 20px;
+}
+
+
+
+.sidebar h1 {
+    font-size: 24px;
+}
+
+
+
+.sidebar button {
+    width: 100%;
+    background: #374151;
+    text-align: left;
+    margin-bottom: 8px;
+}
+
+
+
+.sidebar button:hover {
+    background: #4b6cff;
 }
 
 
 
 
-
-
-
-
-
-// LOAD DATA
-
-
-async function loadData(){
-
-
-const user=auth.currentUser;
-
-
-const ref =
-doc(db,"users",user.uid);
-
-
-
-const snap =
-await getDoc(ref);
-
-
-
-if(snap.exists()){
-
-
-let data=snap.data();
-
-
-tasks=data.tasks || [];
-
-
-document.getElementById("notesArea").value =
-data.notes || "";
-
-
-displayTasks();
-
-
-}
-
-
-
+.main {
+    flex: 1;
+    padding: 30px;
 }
 
 
 
 
-
-
-
-// GAMES
-
-
-window.showGame=function(game){
-
-
-document.getElementById("snakeGame")
-.classList.add("hidden");
-
-
-document.getElementById("slopeGame")
-.classList.add("hidden");
-
-
-
-if(game==="snake"){
-
-document.getElementById("snakeGame")
-.classList.remove("hidden");
-
+.page {
+    animation: fade 0.3s ease;
 }
 
 
-if(game==="slope"){
 
-document.getElementById("slopeGame")
-.classList.remove("hidden");
 
+.card {
+    background: white;
+    padding: 25px;
+    border-radius: 15px;
+    margin-bottom: 20px;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.08);
 }
 
 
-};
+
+
+input,
+textarea {
+    width: 100%;
+    padding: 12px;
+    border-radius: 8px;
+    border: 1px solid #ccc;
+}
+
+
+
+textarea {
+    height: 200px;
+    resize: vertical;
+}
+
+
+
+/* TASKS */
+
+ul {
+    padding-left: 20px;
+}
+
+
+li {
+    margin: 10px;
+}
+
+
+
+/* LEARNING PLAN */
+
+
+.learningMenu {
+    background: white;
+    padding: 15px;
+    border-radius: 15px;
+    margin-bottom: 20px;
+}
+
+
+
+.learningMenu button {
+    display: block;
+    width: 100%;
+    text-align: left;
+}
+
+
+
+.learningPage {
+    background: white;
+    padding: 25px;
+    border-radius: 15px;
+    margin-top: 20px;
+}
+
+
+
+.description {
+    min-height: 150px;
+}
+
+
+
+.checklist {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    font-size: 18px;
+}
+
+
+
+.checklist input {
+    width: auto;
+    margin-right: 10px;
+}
+
+
+
+
+.hidden {
+    display: none;
+}
+
+
+
+@keyframes fade {
+
+from {
+    opacity: 0;
+}
+
+to {
+    opacity: 1;
+}
+
+}

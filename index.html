@@ -18,30 +18,19 @@
 <body>
 
 
-<!-- LOGIN SCREEN -->
+<!-- LOGIN -->
 
 <div id="loginScreen">
 
-
 <div class="loginBox">
-
 
 <h1>📚 Study Hub</h1>
 
-
 <h2>Login</h2>
 
+<input id="email" type="email" placeholder="Email">
 
-<input 
-id="email"
-type="email"
-placeholder="Email">
-
-
-<input
-id="password"
-type="password"
-placeholder="Password">
+<input id="password" type="password" placeholder="Password">
 
 
 <button onclick="login()">
@@ -59,19 +48,15 @@ Create Account
 
 </div>
 
-
 </div>
 
 
 
 
 
-
-<!-- MAIN WEBSITE -->
-
+<!-- APP -->
 
 <div id="app" class="hidden">
-
 
 
 <div class="sidebar">
@@ -80,9 +65,7 @@ Create Account
 <h1>📚 Study Hub</h1>
 
 
-<button onclick="logout()">
-🚪 Logout
-</button>
+<button onclick="logout()">🚪 Logout</button>
 
 
 <button onclick="showPage('home')">
@@ -95,43 +78,13 @@ Create Account
 </button>
 
 
-<button onclick="showPage('schedule')">
-📅 Schedule
-</button>
-
-
-<button onclick="showPage('homework')">
-📝 Homework
-</button>
-
-
-<button onclick="showPage('calendar')">
-🗓 Calendar
-</button>
-
-
 <button onclick="showPage('notes')">
 📒 Notes
 </button>
 
 
-<button onclick="showPage('links')">
-🔗 Links
-</button>
-
-
-<button onclick="showPage('timer')">
-⏱ Timer
-</button>
-
-
-<button onclick="showPage('games')">
-🎮 Games
-</button>
-
-
-<button onclick="showPage('themes')">
-🎨 Themes
+<button onclick="showPage('learning')">
+📚 Learning Plan
 </button>
 
 
@@ -146,17 +99,15 @@ Create Account
 
 
 
-
 <div class="main">
 
 
 
+<!-- HOME -->
+
 <section id="home" class="page">
 
-
-<h2>
-Welcome Back 👋
-</h2>
+<h2>Welcome Back 👋</h2>
 
 
 <div class="card">
@@ -168,36 +119,16 @@ Welcome Back 👋
 </div>
 
 
-<div class="card">
-
-<h2>
-Daily Progress
-</h2>
-
-
-<div class="progress">
-
-<div id="progressBar"></div>
-
-</div>
-
-
-<p id="progressText">
-0% Complete
-</p>
-
-
-</div>
-
-
 </section>
 
 
 
 
 
-<section id="tasks" class="page hidden">
 
+<!-- TASKS -->
+
+<section id="tasks" class="page hidden">
 
 <h2>✅ Tasks</h2>
 
@@ -205,7 +136,7 @@ Daily Progress
 <div class="card">
 
 
-<input id="taskInput" placeholder="Add task">
+<input id="taskInput" placeholder="Add a task">
 
 
 <button onclick="addTask()">
@@ -226,6 +157,9 @@ Add
 
 
 
+
+<!-- NOTES -->
+
 <section id="notes" class="page hidden">
 
 
@@ -237,12 +171,12 @@ Add
 
 <textarea 
 id="notesArea"
-placeholder="Write notes...">
+placeholder="Write notes here...">
 </textarea>
 
 
 <button onclick="saveNotes()">
-Save
+Save Notes
 </button>
 
 
@@ -256,22 +190,40 @@ Save
 
 
 
-<section id="games" class="page hidden">
+
+<!-- LEARNING PLAN -->
+
+<section id="learning" class="page hidden">
 
 
-<h2>🎮 Games</h2>
+<h2>📚 Learning Plan</h2>
 
 
-<div class="card">
+<div class="learningMenu">
 
 
-<button onclick="showGame('snake')">
-🐍 Snake
+<button onclick="showLearning('reading')">
+📖 Reading
 </button>
 
 
-<button onclick="showGame('slope')">
-⚪ Slope
+<button onclick="showLearning('writing')">
+✍️ Writing
+</button>
+
+
+<button onclick="showLearning('numeracy')">
+🔢 Numeracy
+</button>
+
+
+<button onclick="showLearning('careers')">
+💼 Careers Education
+</button>
+
+
+<button onclick="showLearning('relationships')">
+🤝 Respectful Relationships
 </button>
 
 
@@ -279,20 +231,29 @@ Save
 
 
 
-<div id="snakeGame" class="gameBox hidden">
 
 
-<h3>
-🐍 Snake
-</h3>
+<div id="reading" class="learningPage hidden">
+
+<h2>📖 Reading</h2>
+
+<textarea class="description" id="readingDesc"
+placeholder="What are you working on? Goals, books, skills..."></textarea>
 
 
-<canvas 
-id="snakeCanvas"
-width="400"
-height="400">
-</canvas>
+<h3>Weekly Checklist</h3>
 
+<div class="checklist">
+
+<label><input type="checkbox" id="readingMon"> Monday</label>
+<label><input type="checkbox" id="readingTue"> Tuesday</label>
+<label><input type="checkbox" id="readingWed"> Wednesday</label>
+<label><input type="checkbox" id="readingThu"> Thursday</label>
+<label><input type="checkbox" id="readingFri"> Friday</label>
+<label><input type="checkbox" id="readingSat"> Saturday</label>
+<label><input type="checkbox" id="readingSun"> Sunday</label>
+
+</div>
 
 </div>
 
@@ -300,22 +261,117 @@ height="400">
 
 
 
-<div id="slopeGame" class="gameBox hidden">
+<div id="writing" class="learningPage hidden">
 
+<h2>✍️ Writing</h2>
 
-<h3>
-⚪ Slope
-</h3>
+<textarea class="description" id="writingDesc"
+placeholder="What are you working on?"></textarea>
 
+<h3>Weekly Checklist</h3>
 
-<canvas
-id="slopeCanvas"
-width="500"
-height="400">
-</canvas>
+<div class="checklist">
 
+<label><input type="checkbox" id="writingMon"> Monday</label>
+<label><input type="checkbox" id="writingTue"> Tuesday</label>
+<label><input type="checkbox" id="writingWed"> Wednesday</label>
+<label><input type="checkbox" id="writingThu"> Thursday</label>
+<label><input type="checkbox" id="writingFri"> Friday</label>
+<label><input type="checkbox" id="writingSat"> Saturday</label>
+<label><input type="checkbox" id="writingSun"> Sunday</label>
 
 </div>
+
+</div>
+
+
+
+
+
+<div id="numeracy" class="learningPage hidden">
+
+<h2>🔢 Numeracy</h2>
+
+<textarea class="description" id="numeracyDesc"
+placeholder="What maths/numeracy skills are you improving?"></textarea>
+
+
+<h3>Weekly Checklist</h3>
+
+<div class="checklist">
+
+<label><input type="checkbox" id="numeracyMon"> Monday</label>
+<label><input type="checkbox" id="numeracyTue"> Tuesday</label>
+<label><input type="checkbox" id="numeracyWed"> Wednesday</label>
+<label><input type="checkbox" id="numeracyThu"> Thursday</label>
+<label><input type="checkbox" id="numeracyFri"> Friday</label>
+<label><input type="checkbox" id="numeracySat"> Saturday</label>
+<label><input type="checkbox" id="numeracySun"> Sunday</label>
+
+</div>
+
+</div>
+
+
+
+
+
+<div id="careers" class="learningPage hidden">
+
+<h2>💼 Careers Education</h2>
+
+<textarea class="description" id="careersDesc"
+placeholder="Career goals, jobs, skills, courses..."></textarea>
+
+
+<h3>Weekly Checklist</h3>
+
+<div class="checklist">
+
+<label><input type="checkbox" id="careersMon"> Monday</label>
+<label><input type="checkbox" id="careersTue"> Tuesday</label>
+<label><input type="checkbox" id="careersWed"> Wednesday</label>
+<label><input type="checkbox" id="careersThu"> Thursday</label>
+<label><input type="checkbox" id="careersFri"> Friday</label>
+<label><input type="checkbox" id="careersSat"> Saturday</label>
+<label><input type="checkbox" id="careersSun"> Sunday</label>
+
+</div>
+
+</div>
+
+
+
+
+
+<div id="relationships" class="learningPage hidden">
+
+<h2>🤝 Respectful Relationships</h2>
+
+<textarea class="description" id="relationshipsDesc"
+placeholder="Communication, teamwork, personal goals..."></textarea>
+
+
+<h3>Weekly Checklist</h3>
+
+<div class="checklist">
+
+<label><input type="checkbox" id="relationshipsMon"> Monday</label>
+<label><input type="checkbox" id="relationshipsTue"> Tuesday</label>
+<label><input type="checkbox" id="relationshipsWed"> Wednesday</label>
+<label><input type="checkbox" id="relationshipsThu"> Thursday</label>
+<label><input type="checkbox" id="relationshipsFri"> Friday</label>
+<label><input type="checkbox" id="relationshipsSat"> Saturday</label>
+<label><input type="checkbox" id="relationshipsSun"> Sunday</label>
+
+</div>
+
+</div>
+
+
+<button onclick="saveLearning()">
+💾 Save Learning Plan
+</button>
 
 
 </section>
@@ -329,24 +385,19 @@ height="400">
 <section id="settings" class="page hidden">
 
 
-<h2>
-⚙ Settings
-</h2>
+<h2>⚙ Settings</h2>
 
 
 <div class="card">
-
 
 <p>
 Account settings coming soon
 </p>
 
-
 </div>
 
 
 </section>
-
 
 
 
