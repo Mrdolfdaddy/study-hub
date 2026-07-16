@@ -10,7 +10,7 @@
 
 <link rel="stylesheet" href="style.css">
 
-<script type="module" src="script.js"></script>
+<script defer src="script.js"></script>
 
 </head>
 
@@ -18,54 +18,12 @@
 <body>
 
 
-<!-- LOGIN -->
-
-<div id="loginScreen">
-
-<div class="loginBox">
-
-<h1>📚 Study Hub</h1>
-
-<h2>Login</h2>
-
-<input id="email" type="email" placeholder="Email">
-
-<input id="password" type="password" placeholder="Password">
-
-
-<button onclick="login()">
-Login
-</button>
-
-
-<button onclick="signup()">
-Create Account
-</button>
-
-
-<p id="loginMessage"></p>
-
-
-</div>
-
-</div>
-
-
-
-
-
-<!-- APP -->
-
-<div id="app" class="hidden">
+<div id="app">
 
 
 <div class="sidebar">
 
-
 <h1>📚 Study Hub</h1>
-
-
-<button onclick="logout()">🚪 Logout</button>
 
 
 <button onclick="showPage('home')">
@@ -99,13 +57,13 @@ Create Account
 
 
 
+
 <div class="main">
 
 
 
-<!-- HOME -->
-
 <section id="home" class="page">
+
 
 <h2>Welcome Back 👋</h2>
 
@@ -119,6 +77,19 @@ Create Account
 </div>
 
 
+
+<div class="card">
+
+<h2>Today's Focus</h2>
+
+<p>
+Use your Study Hub to track your goals, skills and progress.
+</p>
+
+
+</div>
+
+
 </section>
 
 
@@ -126,9 +97,11 @@ Create Account
 
 
 
-<!-- TASKS -->
+
+
 
 <section id="tasks" class="page hidden">
+
 
 <h2>✅ Tasks</h2>
 
@@ -158,7 +131,7 @@ Add
 
 
 
-<!-- NOTES -->
+
 
 <section id="notes" class="page hidden">
 
@@ -191,7 +164,7 @@ Save Notes
 
 
 
-<!-- LEARNING PLAN -->
+
 
 <section id="learning" class="page hidden">
 
@@ -199,7 +172,8 @@ Save Notes
 <h2>📚 Learning Plan</h2>
 
 
-<div class="learningMenu">
+
+<div class="learningButtons">
 
 
 <button onclick="showLearning('reading')">
@@ -233,140 +207,220 @@ Save Notes
 
 
 
-<div id="reading" class="learningPage hidden">
+
+
+<div id="reading" class="learningSection hidden">
+
 
 <h2>📖 Reading</h2>
 
-<textarea class="description" id="readingDesc"
-placeholder="What are you working on? Goals, books, skills..."></textarea>
+
+<textarea id="readingText"
+placeholder="Explain what you are working on...">
+</textarea>
+
 
 
 <h3>Weekly Checklist</h3>
 
+
 <div class="checklist">
 
-<label><input type="checkbox" id="readingMon"> Monday</label>
-<label><input type="checkbox" id="readingTue"> Tuesday</label>
-<label><input type="checkbox" id="readingWed"> Wednesday</label>
-<label><input type="checkbox" id="readingThu"> Thursday</label>
-<label><input type="checkbox" id="readingFri"> Friday</label>
-<label><input type="checkbox" id="readingSat"> Saturday</label>
-<label><input type="checkbox" id="readingSun"> Sunday</label>
+<label><input type="checkbox"> Monday</label>
+
+<label><input type="checkbox"> Tuesday</label>
+
+<label><input type="checkbox"> Wednesday</label>
+
+<label><input type="checkbox"> Thursday</label>
+
+<label><input type="checkbox"> Friday</label>
+
+<label><input type="checkbox"> Saturday</label>
+
+<label><input type="checkbox"> Sunday</label>
 
 </div>
 
+
 </div>
 
 
 
 
 
-<div id="writing" class="learningPage hidden">
+
+
+
+
+<div id="writing" class="learningSection hidden">
+
 
 <h2>✍️ Writing</h2>
 
-<textarea class="description" id="writingDesc"
-placeholder="What are you working on?"></textarea>
+
+<textarea id="writingText"
+placeholder="Explain what you are working on...">
+</textarea>
+
+
 
 <h3>Weekly Checklist</h3>
 
+
 <div class="checklist">
 
-<label><input type="checkbox" id="writingMon"> Monday</label>
-<label><input type="checkbox" id="writingTue"> Tuesday</label>
-<label><input type="checkbox" id="writingWed"> Wednesday</label>
-<label><input type="checkbox" id="writingThu"> Thursday</label>
-<label><input type="checkbox" id="writingFri"> Friday</label>
-<label><input type="checkbox" id="writingSat"> Saturday</label>
-<label><input type="checkbox" id="writingSun"> Sunday</label>
+<label><input type="checkbox"> Monday</label>
+
+<label><input type="checkbox"> Tuesday</label>
+
+<label><input type="checkbox"> Wednesday</label>
+
+<label><input type="checkbox"> Thursday</label>
+
+<label><input type="checkbox"> Friday</label>
+
+<label><input type="checkbox"> Saturday</label>
+
+<label><input type="checkbox"> Sunday</label>
 
 </div>
 
+
 </div>
 
 
 
 
 
-<div id="numeracy" class="learningPage hidden">
+
+
+
+
+<div id="numeracy" class="learningSection hidden">
+
 
 <h2>🔢 Numeracy</h2>
 
-<textarea class="description" id="numeracyDesc"
-placeholder="What maths/numeracy skills are you improving?"></textarea>
+
+<textarea id="numeracyText"
+placeholder="Explain what you are working on...">
+</textarea>
+
 
 
 <h3>Weekly Checklist</h3>
 
+
 <div class="checklist">
 
-<label><input type="checkbox" id="numeracyMon"> Monday</label>
-<label><input type="checkbox" id="numeracyTue"> Tuesday</label>
-<label><input type="checkbox" id="numeracyWed"> Wednesday</label>
-<label><input type="checkbox" id="numeracyThu"> Thursday</label>
-<label><input type="checkbox" id="numeracyFri"> Friday</label>
-<label><input type="checkbox" id="numeracySat"> Saturday</label>
-<label><input type="checkbox" id="numeracySun"> Sunday</label>
+<label><input type="checkbox"> Monday</label>
+
+<label><input type="checkbox"> Tuesday</label>
+
+<label><input type="checkbox"> Wednesday</label>
+
+<label><input type="checkbox"> Thursday</label>
+
+<label><input type="checkbox"> Friday</label>
+
+<label><input type="checkbox"> Saturday</label>
+
+<label><input type="checkbox"> Sunday</label>
 
 </div>
 
+
 </div>
 
 
 
 
 
-<div id="careers" class="learningPage hidden">
+
+
+
+
+<div id="careers" class="learningSection hidden">
+
 
 <h2>💼 Careers Education</h2>
 
-<textarea class="description" id="careersDesc"
-placeholder="Career goals, jobs, skills, courses..."></textarea>
+
+<textarea id="careersText"
+placeholder="Explain your career goals and skills...">
+</textarea>
+
 
 
 <h3>Weekly Checklist</h3>
 
+
 <div class="checklist">
 
-<label><input type="checkbox" id="careersMon"> Monday</label>
-<label><input type="checkbox" id="careersTue"> Tuesday</label>
-<label><input type="checkbox" id="careersWed"> Wednesday</label>
-<label><input type="checkbox" id="careersThu"> Thursday</label>
-<label><input type="checkbox" id="careersFri"> Friday</label>
-<label><input type="checkbox" id="careersSat"> Saturday</label>
-<label><input type="checkbox" id="careersSun"> Sunday</label>
+<label><input type="checkbox"> Monday</label>
+
+<label><input type="checkbox"> Tuesday</label>
+
+<label><input type="checkbox"> Wednesday</label>
+
+<label><input type="checkbox"> Thursday</label>
+
+<label><input type="checkbox"> Friday</label>
+
+<label><input type="checkbox"> Saturday</label>
+
+<label><input type="checkbox"> Sunday</label>
 
 </div>
 
+
 </div>
 
 
 
 
 
-<div id="relationships" class="learningPage hidden">
+
+
+
+
+<div id="relationships" class="learningSection hidden">
+
 
 <h2>🤝 Respectful Relationships</h2>
 
-<textarea class="description" id="relationshipsDesc"
-placeholder="Communication, teamwork, personal goals..."></textarea>
+
+<textarea id="relationshipsText"
+placeholder="Explain your goals and reflections...">
+</textarea>
+
 
 
 <h3>Weekly Checklist</h3>
 
+
 <div class="checklist">
 
-<label><input type="checkbox" id="relationshipsMon"> Monday</label>
-<label><input type="checkbox" id="relationshipsTue"> Tuesday</label>
-<label><input type="checkbox" id="relationshipsWed"> Wednesday</label>
-<label><input type="checkbox" id="relationshipsThu"> Thursday</label>
-<label><input type="checkbox" id="relationshipsFri"> Friday</label>
-<label><input type="checkbox" id="relationshipsSat"> Saturday</label>
-<label><input type="checkbox" id="relationshipsSun"> Sunday</label>
+<label><input type="checkbox"> Monday</label>
+
+<label><input type="checkbox"> Tuesday</label>
+
+<label><input type="checkbox"> Wednesday</label>
+
+<label><input type="checkbox"> Thursday</label>
+
+<label><input type="checkbox"> Friday</label>
+
+<label><input type="checkbox"> Saturday</label>
+
+<label><input type="checkbox"> Sunday</label>
 
 </div>
 
+
 </div>
+
 
 
 <button onclick="saveLearning()">
@@ -374,7 +428,10 @@ placeholder="Communication, teamwork, personal goals..."></textarea>
 </button>
 
 
+
 </section>
+
+
 
 
 
@@ -391,7 +448,7 @@ placeholder="Communication, teamwork, personal goals..."></textarea>
 <div class="card">
 
 <p>
-Account settings coming soon
+Settings coming soon.
 </p>
 
 </div>
@@ -401,14 +458,13 @@ Account settings coming soon
 
 
 
-</div>
-
 
 </div>
 
+
+</div>
 
 
 </body>
 
-  
 </html>

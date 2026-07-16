@@ -6,59 +6,15 @@
 
 body {
     margin: 0;
-    background: #f2f5ff;
+    background: #f3f6ff;
     color: #222;
 }
 
 
-/* LOGIN */
-
-#loginScreen {
-    height: 100vh;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
-
-
-.loginBox {
-    background: white;
-    padding: 40px;
-    border-radius: 15px;
-    width: 350px;
-    text-align: center;
-    box-shadow: 0 10px 30px rgba(0,0,0,0.15);
-}
-
-
-.loginBox input {
-    width: 100%;
-    padding: 12px;
-    margin: 8px 0;
-    border-radius: 8px;
-    border: 1px solid #ccc;
-}
 
 
 
-button {
-    background: #4b6cff;
-    color: white;
-    border: none;
-    padding: 12px 18px;
-    margin: 5px;
-    border-radius: 8px;
-    cursor: pointer;
-}
-
-
-button:hover {
-    opacity: 0.85;
-}
-
-
-
-/* APP */
+/* LAYOUT */
 
 
 #app {
@@ -69,158 +25,328 @@ button:hover {
 
 
 .sidebar {
-    width: 240px;
+
+    width: 250px;
+
     background: #1f2937;
+
     color: white;
-    padding: 20px;
+
+    padding: 25px;
+
 }
 
 
 
 .sidebar h1 {
+
     font-size: 24px;
+
+    margin-bottom: 30px;
+
 }
 
 
 
 .sidebar button {
+
     width: 100%;
+
+    padding: 12px;
+
+    margin-bottom: 10px;
+
     background: #374151;
+
+    color: white;
+
+    border: none;
+
+    border-radius: 10px;
+
+    cursor: pointer;
+
     text-align: left;
-    margin-bottom: 8px;
+
+    font-size: 15px;
+
 }
 
 
 
 .sidebar button:hover {
+
     background: #4b6cff;
+
 }
 
 
+
+
+
+
+
+/* MAIN */
 
 
 .main {
-    flex: 1;
-    padding: 30px;
-}
 
+    flex: 1;
+
+    padding: 30px;
+
+}
 
 
 
 .page {
-    animation: fade 0.3s ease;
+
+    animation: fade 0.3s;
+
 }
 
 
+
+.hidden {
+
+    display: none;
+
+}
+
+
+
+
+
+
+
+/* CARDS */
 
 
 .card {
+
     background: white;
+
     padding: 25px;
+
     border-radius: 15px;
+
     margin-bottom: 20px;
+
     box-shadow: 0 5px 15px rgba(0,0,0,0.08);
+
 }
 
 
+
+
+
+
+
+/* BUTTONS */
+
+
+button {
+
+    background: #4b6cff;
+
+    color: white;
+
+    border: none;
+
+    padding: 12px 18px;
+
+    border-radius: 10px;
+
+    cursor: pointer;
+
+}
+
+
+
+button:hover {
+
+    opacity: 0.85;
+
+}
+
+
+
+
+
+
+
+/* INPUTS */
 
 
 input,
 textarea {
+
     width: 100%;
+
     padding: 12px;
-    border-radius: 8px;
+
+    border-radius: 10px;
+
     border: 1px solid #ccc;
+
+    margin-bottom: 10px;
+
 }
 
 
 
 textarea {
-    height: 200px;
+
+    height: 180px;
+
     resize: vertical;
+
 }
+
+
+
+
 
 
 
 /* TASKS */
 
-ul {
-    padding-left: 20px;
-}
-
 
 li {
-    margin: 10px;
+
+    background: #f1f5ff;
+
+    padding: 10px;
+
+    margin: 8px;
+
+    border-radius: 8px;
+
 }
+
+
+
+
 
 
 
 /* LEARNING PLAN */
 
 
-.learningMenu {
-    background: white;
-    padding: 15px;
-    border-radius: 15px;
+.learningButtons {
+
     margin-bottom: 20px;
+
 }
 
 
 
-.learningMenu button {
-    display: block;
-    width: 100%;
-    text-align: left;
+.learningButtons button {
+
+    margin: 5px;
+
 }
 
 
 
-.learningPage {
+
+
+.learningSection {
+
     background: white;
+
     padding: 25px;
+
     border-radius: 15px;
+
     margin-top: 20px;
-}
 
-
-
-.description {
-    min-height: 150px;
 }
 
 
 
 .checklist {
+
     display: flex;
+
     flex-direction: column;
+
     gap: 12px;
-    font-size: 18px;
+
+}
+
+
+
+.checklist label {
+
+    background: #f3f4f6;
+
+    padding: 12px;
+
+    border-radius: 8px;
+
 }
 
 
 
 .checklist input {
+
     width: auto;
+
     margin-right: 10px;
+
 }
 
 
 
 
-.hidden {
-    display: none;
-}
 
+
+
+/* ANIMATION */
 
 
 @keyframes fade {
 
-from {
-    opacity: 0;
+    from {
+
+        opacity: 0;
+
+    }
+
+
+    to {
+
+        opacity: 1;
+
+    }
+
 }
 
-to {
-    opacity: 1;
+
+
+
+
+
+
+/* MOBILE */
+
+
+@media(max-width:800px){
+
+
+#app {
+
+    flex-direction: column;
+
 }
+
+
+.sidebar {
+
+    width: 100%;
+
+}
+
 
 }

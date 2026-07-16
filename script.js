@@ -1,285 +1,42 @@
-import { initializeApp } from "https://www.gstatic.com/firebasejs/11.10.0/firebase-app.js";
+// STUDY HUB SCRIPT
 
-import {
-    getAuth,
-    createUserWithEmailAndPassword,
-    signInWithEmailAndPassword,
-    signOut,
-    onAuthStateChanged
-} from "https://www.gstatic.com/firebasejs/11.10.0/firebase-auth.js";
 
-import {
-    getFirestore,
-    doc,
-    setDoc,
-    getDoc
-} from "https://www.gstatic.com/firebasejs/11.10.0/firebase-firestore.js";
+// PAGE SWITCHING
 
+function showPage(page){
 
-
-const firebaseConfig = {
-
-    apiKey: "AIzaSyBZnvUAu7dXoxSMnlvhvsVkmOUswwPDEnc",
-
-    authDomain: "study-hub-779af.firebaseapp.com",
-
-    projectId: "study-hub-779af",
-
-    storageBucket: "study-hub-779af.firebasestorage.app",
-
-    messagingSenderId: "1089929857276",
-
-    appId: "1:1089929857276:web:3d1feec6214ad22e9fef79",
-
-    measurementId: "G-308HJ8VG7G"
-
-};
-
-
-
-const app = initializeApp(firebaseConfig);
-
-const auth = getAuth(app);
-
-const db = getFirestore(app);
-
-
-
-let tasks = [];
-
-
-
-
-// LOGIN
-
-window.login = async function(){
-
-    const email =
-    document.getElementById("email").value;
-
-    const password =
-    document.getElementById("password").value;
-
-    const message =
-    document.getElementById("loginMessage");
-
-
-    message.innerText = "Logging in...";
-
-
-    try {
-
-        const result = await signInWithEmailAndPassword(
-            auth,
-            email,
-            password
-        );
-
-
-        console.log(
-            "LOGIN SUCCESS",
-            result.user.email
-        );
-
-
-        message.innerText = "Login successful";
-
-
-        document
-        .getElementById("loginScreen")
-        .classList.add("hidden");
-
-
-        document
-        .getElementById("app")
-        .classList.remove("hidden");
-
-
-        await loadData();
-
-
-    }
-
-
-    catch(error){
-
-        console.log(error);
-
-        message.innerText =
-        error.message;
-
-    }
-
-};
-
-
-
-
-
-// CREATE ACCOUNT
-
-
-window.signup = async function(){
-
-    const email =
-    document.getElementById("email").value;
-
-
-    const password =
-    document.getElementById("password").value;
-
-
-    const message =
-    document.getElementById("loginMessage");
-
-
-    try {
-
-
-        await createUserWithEmailAndPassword(
-            auth,
-            email,
-            password
-        );
-
-
-        message.innerText =
-        "Account created!";
-
-
-    }
-
-
-    catch(error){
-
-        console.log(error);
-
-        message.innerText =
-        error.message;
-
-    }
-
-};
-
-
-
-
-
-// LOGOUT
-
-
-window.logout = async function(){
-
-    await signOut(auth);
-
-};
-
-
-
-
-
-
-// CHECK USER
-
-
-onAuthStateChanged(auth, async(user)=>{
-
-
-    if(user){
-
-
-        document
-        .getElementById("loginScreen")
-        .classList.add("hidden");
-
-
-        document
-        .getElementById("app")
-        .classList.remove("hidden");
-
-
-        await loadData();
-
-
-    }
-
-
-    else{
-
-
-        document
-        .getElementById("loginScreen")
-        .classList.remove("hidden");
-
-
-        document
-        .getElementById("app")
-        .classList.add("hidden");
-
-
-    }
-
-
-});
-
-
-
-
-
-
-
-
-// PAGE SWITCH
-
-
-window.showPage=function(page){
-
-
-    document
-    .querySelectorAll(".page")
-    .forEach(section=>{
+    document.querySelectorAll(".page").forEach(section => {
 
         section.classList.add("hidden");
 
     });
 
 
-    document
-    .getElementById(page)
+    document.getElementById(page)
     .classList.remove("hidden");
 
-
-};
-
+}
 
 
 
 
 
-
-// LEARNING PLAN
-
-
-window.showLearning=function(section){
+// LEARNING PLAN SWITCHING
 
 
-    document
-    .querySelectorAll(".learningPage")
-    .forEach(page=>{
+function showLearning(section){
 
-        page.classList.add("hidden");
+    document.querySelectorAll(".learningSection").forEach(item => {
+
+        item.classList.add("hidden");
 
     });
 
 
-    document
-    .getElementById(section)
+    document.getElementById(section)
     .classList.remove("hidden");
 
-
-};
-
-
+}
 
 
 
@@ -301,6 +58,7 @@ function updateClock(){
     document.getElementById("date").innerText =
     now.toDateString();
 
+
 }
 
 
@@ -315,35 +73,40 @@ updateClock();
 
 
 
-
 // TASKS
 
 
-window.addTask=function(){
+let tasks = JSON.parse(
+    localStorage.getItem("tasks")
+) || [];
+
+
+
+function addTask(){
 
 
     let input =
     document.getElementById("taskInput");
 
 
-    if(input.value.trim()=="")
+    if(input.value.trim() === "")
     return;
+
 
 
     tasks.push(input.value);
 
 
-    input.value="";
+    input.value = "";
 
 
     displayTasks();
 
 
-    saveData();
+    saveTasks();
 
 
-};
-
+}
 
 
 
@@ -356,7 +119,7 @@ function displayTasks(){
     document.getElementById("taskList");
 
 
-    list.innerHTML="";
+    list.innerHTML = "";
 
 
     tasks.forEach((task,index)=>{
@@ -366,9 +129,15 @@ function displayTasks(){
         document.createElement("li");
 
 
-        li.innerHTML =
-        task +
-        ` <button onclick="removeTask(${index})">❌</button>`;
+        li.innerHTML = `
+
+        ${task}
+
+        <button onclick="removeTask(${index})">
+        ❌
+        </button>
+
+        `;
 
 
         list.appendChild(li);
@@ -382,8 +151,7 @@ function displayTasks(){
 
 
 
-
-window.removeTask=function(index){
+function removeTask(index){
 
 
     tasks.splice(index,1);
@@ -392,102 +160,7 @@ window.removeTask=function(index){
     displayTasks();
 
 
-    saveData();
-
-
-};
-
-
-
-
-
-
-
-// NOTES
-
-
-window.saveNotes=function(){
-
-    saveData();
-
-};
-
-
-
-
-
-
-
-
-
-// SAVE LEARNING
-
-
-window.saveLearning=function(){
-
-    saveData();
-
-    alert("Learning Plan Saved!");
-
-};
-
-
-
-
-
-
-
-
-
-function getLearningData(){
-
-
-    let data={};
-
-
-    document
-    .querySelectorAll(".learningPage")
-    .forEach(page=>{
-
-
-        let name = page.id;
-
-
-        data[name]={};
-
-
-        let desc =
-        document.getElementById(name+"Desc");
-
-
-        if(desc){
-
-            data[name].description =
-            desc.value;
-
-        }
-
-
-
-        data[name].checklist=[];
-
-
-        page
-        .querySelectorAll("input[type='checkbox']")
-        .forEach(box=>{
-
-            data[name].checklist.push(
-                box.checked
-            );
-
-        });
-
-
-
-    });
-
-
-    return data;
+    saveTasks();
 
 
 }
@@ -496,40 +169,14 @@ function getLearningData(){
 
 
 
+function saveTasks(){
 
 
+    localStorage.setItem(
 
+        "tasks",
 
-// FIRESTORE SAVE
-
-
-async function saveData(){
-
-
-    const user = auth.currentUser;
-
-
-    if(!user)
-    return;
-
-
-
-    await setDoc(
-
-        doc(db,"users",user.uid),
-
-        {
-
-            tasks: tasks,
-
-            notes:
-            document.getElementById("notesArea").value,
-
-
-            learning:
-            getLearningData()
-
-        }
+        JSON.stringify(tasks)
 
     );
 
@@ -544,54 +191,208 @@ async function saveData(){
 
 
 
-// LOAD DATA
+// NOTES
 
 
-async function loadData(){
+function saveNotes(){
 
 
-    const user =
-    auth.currentUser;
-
-
-    if(!user)
-    return;
-
-
-    const ref =
-    doc(db,"users",user.uid);
+    let notes =
+    document.getElementById("notesArea").value;
 
 
 
-    const snap =
-    await getDoc(ref);
+    localStorage.setItem(
+
+        "notes",
+
+        notes
+
+    );
+
+
+    alert("Notes saved!");
+
+}
 
 
 
-    if(snap.exists()){
-
-
-        const data =
-        snap.data();
 
 
 
-        tasks =
-        data.tasks || [];
 
 
-        displayTasks();
+function loadNotes(){
 
 
+    document.getElementById("notesArea").value =
 
-        document
-        .getElementById("notesArea")
-        .value =
-        data.notes || "";
-
-
-
-    }
+    localStorage.getItem("notes") || "";
 
 
 }
+
+
+
+
+
+
+
+
+
+// LEARNING PLAN SAVE
+
+
+function saveLearning(){
+
+
+    let learning = {};
+
+
+
+    document.querySelectorAll(".learningSection")
+    .forEach(section=>{
+
+
+        let text =
+        section.querySelector("textarea");
+
+
+        let checks =
+        [];
+
+
+        section.querySelectorAll(
+            "input[type='checkbox']"
+        )
+        .forEach(box=>{
+
+            checks.push(box.checked);
+
+        });
+
+
+
+        learning[section.id] = {
+
+
+            text:
+            text.value,
+
+
+            checks:
+            checks
+
+
+        };
+
+
+    });
+
+
+
+
+    localStorage.setItem(
+
+        "learning",
+
+        JSON.stringify(learning)
+
+    );
+
+
+
+    alert("Learning Plan Saved!");
+
+}
+
+
+
+
+
+
+
+
+
+function loadLearning(){
+
+
+    let data = JSON.parse(
+
+        localStorage.getItem("learning")
+
+    );
+
+
+
+    if(!data)
+    return;
+
+
+
+    Object.keys(data).forEach(section=>{
+
+
+        let area =
+        document.getElementById(section);
+
+
+
+        if(!area)
+        return;
+
+
+
+        area.querySelector("textarea")
+        .value =
+        data[section].text;
+
+
+
+        let boxes =
+        area.querySelectorAll(
+            "input[type='checkbox']"
+        );
+
+
+
+        boxes.forEach((box,index)=>{
+
+
+            box.checked =
+            data[section].checks[index];
+
+
+        });
+
+
+
+    });
+
+
+}
+
+
+
+
+
+
+
+
+
+// LOAD EVERYTHING WHEN PAGE OPENS
+
+
+window.onload = function(){
+
+
+    displayTasks();
+
+
+    loadNotes();
+
+
+    loadLearning();
+
+
+};
