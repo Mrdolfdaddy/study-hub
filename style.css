@@ -1,414 +1,369 @@
-* {
-    box-sizing: border-box;
-    margin: 0;
-    padding: 0;
-    font-family: Arial, sans-serif;
-}
+// FIREBASE IMPORTS
 
+import { initializeApp } from "https://www.gstatic.com/firebasejs/11.10.0/firebase-app.js";
 
-html, body {
+import {
+    getAuth,
+    createUserWithEmailAndPassword,
+    signInWithEmailAndPassword,
+    signOut,
+    onAuthStateChanged
+} from "https://www.gstatic.com/firebasejs/11.10.0/firebase-auth.js";
 
-    width:100%;
-    height:100%;
-
-    overflow:hidden;
-
-}
-
-
-body {
-
-    background:#0b1120;
-
-    color:white;
-
-}
+import {
+    getFirestore,
+    doc,
+    setDoc,
+    getDoc
+} from "https://www.gstatic.com/firebasejs/11.10.0/firebase-firestore.js";
 
 
 
+// FIREBASE CONFIG
+
+const firebaseConfig = {
+
+apiKey: "AIzaSyBZnvUAu7dXoxSMnlvhvsVkmOUswwPDEnc",
+
+authDomain: "study-hub-779af.firebaseapp.com",
+
+projectId: "study-hub-779af",
+
+storageBucket: "study-hub-779af.firebasestorage.app",
+
+messagingSenderId: "1089929857276",
+
+appId: "1:1089929857276:web:3d1feec6214ad22e9fef79",
+
+measurementId: "G-308HJ8VG7G"
+
+};
 
 
 
-/* SIDEBAR */
+const app = initializeApp(firebaseConfig);
 
+const auth = getAuth(app);
 
-.sidebar {
-
-    position:fixed;
-
-    left:0;
-    top:0;
-
-    width:260px;
-
-    height:100vh;
-
-    background:#111827;
-
-    padding:25px;
-
-    overflow-y:auto;
-
-    border-right:1px solid #374151;
-
-}
-
-
-.sidebar h1 {
-
-    text-align:center;
-
-    margin-bottom:30px;
-
-}
+const db = getFirestore(app);
 
 
 
-.sidebar button {
 
-    width:100%;
+// LOGIN
 
-    padding:14px;
+window.login = async function(){
 
-    margin-bottom:10px;
+const email = document.getElementById("email").value;
 
-    background:#1f2937;
+const password = document.getElementById("password").value;
 
-    color:white;
 
-    border:none;
+try {
 
-    border-radius:12px;
+await signInWithEmailAndPassword(
+auth,
+email,
+password
+);
 
-    cursor:pointer;
-
-    text-align:left;
-
-    transition:.3s;
 
 }
 
+catch(error){
 
-
-.sidebar button:hover {
-
-    background:#2563eb;
-
-    transform:translateX(5px);
+document.getElementById("loginMessage").innerText = error.message;
 
 }
 
+};
 
 
 
 
+// SIGN UP
+
+window.signup = async function(){
+
+const email = document.getElementById("email").value;
+
+const password = document.getElementById("password").value;
 
 
+try {
 
-/* MAIN AREA */
+await createUserWithEmailAndPassword(
+auth,
+email,
+password
+);
 
-
-.main {
-
-    position:absolute;
-
-    left:260px;
-
-    top:0;
-
-    right:0;
-
-    bottom:0;
-
-    padding:40px;
-
-    overflow-y:auto;
 
 }
 
+catch(error){
 
-
-
-
-
-
-
-/* PAGE ANIMATION */
-
-
-.page {
-
-    animation:fade .3s;
+document.getElementById("loginMessage").innerText = error.message;
 
 }
 
+};
 
 
-.hidden {
 
-    display:none;
+
+
+// LOGOUT
+
+window.logout = async function(){
+
+await signOut(auth);
+
+};
+
+
+
+
+
+// CHECK LOGIN STATUS
+
+
+onAuthStateChanged(auth, async(user)=>{
+
+
+if(user){
+
+
+document.getElementById("loginScreen").classList.add("hidden");
+
+document.getElementById("app").classList.remove("hidden");
+
+loadData();
+
 
 }
 
+else{
 
 
-@keyframes fade {
+document.getElementById("loginScreen").classList.remove("hidden");
 
-from {
+document.getElementById("app").classList.add("hidden");
 
-opacity:0;
-
-transform:translateY(15px);
 
 }
 
 
-to {
-
-opacity:1;
-
-transform:translateY(0);
-
-}
-
-}
+});
 
 
 
 
 
 
-
-h2 {
-
-    font-size:32px;
-
-    margin-bottom:25px;
-
-}
+// PAGE SWITCHING
 
 
+window.showPage = function(page){
 
 
+document.querySelectorAll(".page").forEach(section=>{
+
+section.classList.add("hidden");
+
+});
 
 
+document.getElementById(page).classList.remove("hidden");
 
-/* CARDS */
 
-
-.card {
-
-    background:#111827;
-
-    padding:30px;
-
-    border-radius:20px;
-
-    margin-bottom:25px;
-
-    box-shadow:0 10px 30px rgba(0,0,0,.3);
-
-}
+};
 
 
 
 
 
 
+// CLOCK
 
 
-/* INPUTS */
+function updateClock(){
+
+let now = new Date();
 
 
-input {
+document.getElementById("time").innerText =
+now.toLocaleTimeString();
 
-    background:#1f2937;
 
-    color:white;
+document.getElementById("date").innerText =
+now.toDateString();
 
-    border:none;
-
-    padding:14px;
-
-    margin:5px;
-
-    border-radius:12px;
-
-    width:70%;
 
 }
 
 
+setInterval(updateClock,1000);
 
-textarea {
+updateClock();
 
-    width:100%;
 
-    height:300px;
 
-    background:#1f2937;
 
-    color:white;
 
-    border:none;
 
-    padding:20px;
 
-    border-radius:15px;
+// TASKS
 
-    resize:none;
+
+let tasks = [];
+
+
+
+window.addTask = async function(){
+
+
+let input = document.getElementById("taskInput");
+
+
+if(input.value.trim()=="") return;
+
+
+
+tasks.push({
+
+text: input.value,
+
+done:false
+
+});
+
+
+input.value="";
+
+
+displayTasks();
+
+saveData();
+
+
+};
+
+
+
+
+
+
+function displayTasks(){
+
+
+let list=document.getElementById("taskList");
+
+
+list.innerHTML="";
+
+
+tasks.forEach((task,index)=>{
+
+
+let li=document.createElement("li");
+
+
+li.innerHTML = `
+
+${task.text}
+
+<button onclick="removeTask(${index})">
+❌
+</button>
+
+`;
+
+
+list.appendChild(li);
+
+
+
+});
+
+
+};
+
+
+
+
+
+window.removeTask=function(index){
+
+
+tasks.splice(index,1);
+
+
+displayTasks();
+
+saveData();
+
+
+};
+
+
+
+
+
+
+
+
+// NOTES
+
+
+window.saveNotes = async function(){
+
+
+let notes =
+document.getElementById("notesArea").value;
+
+
+saveData();
+
+
+};
+
+
+
+
+
+
+
+
+
+// FIRESTORE SAVE
+
+
+async function saveData(){
+
+
+const user = auth.currentUser;
+
+
+if(!user) return;
+
+
+
+await setDoc(
+
+doc(db,"users",user.uid),
+
+{
+
+tasks:tasks,
+
+notes:
+document.getElementById("notesArea").value
 
 }
 
+);
 
-
-
-
-
-
-/* BUTTONS */
-
-
-.card button {
-
-    background:#2563eb;
-
-    color:white;
-
-    border:none;
-
-    padding:12px 20px;
-
-    border-radius:12px;
-
-    cursor:pointer;
-
-    margin:5px;
-
-    transition:.3s;
-
-}
-
-
-
-.card button:hover {
-
-    transform:scale(1.05);
-
-    background:#3b82f6;
-
-}
-
-
-
-
-
-
-
-/* LISTS */
-
-
-ul {
-
-    list-style:none;
-
-    margin-top:20px;
-
-}
-
-
-
-li {
-
-    background:#1f2937;
-
-    padding:15px;
-
-    margin-bottom:10px;
-
-    border-radius:12px;
-
-}
-
-
-
-
-
-
-
-/* PROGRESS */
-
-
-.progress {
-
-    width:100%;
-
-    height:25px;
-
-    background:#1f2937;
-
-    border-radius:20px;
-
-    overflow:hidden;
-
-}
-
-
-
-#progressBar {
-
-    height:100%;
-
-    width:0%;
-
-    background:#22c55e;
-
-    transition:.5s;
-
-}
-
-
-
-
-
-
-
-
-/* TABLE */
-
-
-table {
-
-    width:100%;
-
-    border-collapse:collapse;
-
-}
-
-
-th {
-
-    background:#2563eb;
-
-}
-
-
-
-td, th {
-
-    padding:15px;
-
-    border:1px solid #374151;
-
-    text-align:center;
-
-}
-
-
-
-td[contenteditable] {
-
-    background:#1f2937;
 
 }
 
@@ -419,14 +374,45 @@ td[contenteditable] {
 
 
 
-/* TIMER */
+
+// LOAD DATA
 
 
-#timerDisplay {
+async function loadData(){
 
-    font-size:70px;
 
-    text-align:center;
+const user=auth.currentUser;
+
+
+const ref =
+doc(db,"users",user.uid);
+
+
+
+const snap =
+await getDoc(ref);
+
+
+
+if(snap.exists()){
+
+
+let data=snap.data();
+
+
+tasks=data.tasks || [];
+
+
+document.getElementById("notesArea").value =
+data.notes || "";
+
+
+displayTasks();
+
+
+}
+
+
 
 }
 
@@ -436,171 +422,35 @@ td[contenteditable] {
 
 
 
-/* GAMES */
+// GAMES
 
 
-.gameMenu {
-
-    display:flex;
-
-    gap:20px;
-
-}
+window.showGame=function(game){
 
 
-.gameMenu button {
+document.getElementById("snakeGame")
+.classList.add("hidden");
 
-    width:200px;
 
-    height:100px;
-
-    font-size:22px;
-
-}
+document.getElementById("slopeGame")
+.classList.add("hidden");
 
 
 
+if(game==="snake"){
 
-
-.gameBox {
-
-    background:#111827;
-
-    padding:25px;
-
-    border-radius:20px;
-
-    margin-top:25px;
-
-    text-align:center;
+document.getElementById("snakeGame")
+.classList.remove("hidden");
 
 }
 
 
+if(game==="slope"){
 
-canvas {
-
-    background:#000;
-
-    border-radius:15px;
+document.getElementById("slopeGame")
+.classList.remove("hidden");
 
 }
 
 
-
-
-
-
-
-
-/* THEMES */
-
-
-body.blue {
-
-    background:#081a33;
-
-}
-
-
-
-body.purple {
-
-    background:#241033;
-
-}
-
-
-
-body.green {
-
-    background:#062b20;
-
-}
-
-
-
-body.black {
-
-    background:#000;
-
-}
-
-
-
-
-
-
-
-
-/* SCROLLBAR */
-
-
-::-webkit-scrollbar {
-
-    width:10px;
-
-}
-
-
-::-webkit-scrollbar-track {
-
-    background:#111827;
-
-}
-
-
-::-webkit-scrollbar-thumb {
-
-    background:#2563eb;
-
-    border-radius:10px;
-
-}
-
-
-
-
-
-
-
-
-/* MOBILE */
-
-
-@media(max-width:800px){
-
-
-.sidebar {
-
-    width:80px;
-
-}
-
-
-.sidebar h1 {
-
-    display:none;
-
-}
-
-
-
-.sidebar button {
-
-    font-size:0;
-
-}
-
-
-
-.main {
-
-    left:80px;
-
-    padding:20px;
-
-}
-
-
-}
+};

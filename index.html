@@ -10,7 +10,7 @@
 
 <link rel="stylesheet" href="style.css">
 
-<script defer src="script.js"></script>
+<script type="module" src="script.js"></script>
 
 </head>
 
@@ -18,23 +18,131 @@
 <body>
 
 
-<div class="sidebar">
+<!-- LOGIN SCREEN -->
+
+<div id="loginScreen">
+
+
+<div class="loginBox">
+
 
 <h1>📚 Study Hub</h1>
 
-<button onclick="showPage('home')">🏠 Home</button>
-<button onclick="showPage('tasks')">✅ Tasks</button>
-<button onclick="showPage('schedule')">📅 Schedule</button>
-<button onclick="showPage('homework')">📝 Homework</button>
-<button onclick="showPage('calendar')">🗓 Calendar</button>
-<button onclick="showPage('notes')">📒 Notes</button>
-<button onclick="showPage('links')">🔗 Links</button>
-<button onclick="showPage('timer')">⏱ Timer</button>
-<button onclick="showPage('games')">🎮 Games</button>
-<button onclick="showPage('themes')">🎨 Themes</button>
-<button onclick="showPage('settings')">⚙ Settings</button>
+
+<h2>Login</h2>
+
+
+<input 
+id="email"
+type="email"
+placeholder="Email">
+
+
+<input
+id="password"
+type="password"
+placeholder="Password">
+
+
+<button onclick="login()">
+Login
+</button>
+
+
+<button onclick="signup()">
+Create Account
+</button>
+
+
+<p id="loginMessage"></p>
+
 
 </div>
+
+
+</div>
+
+
+
+
+
+
+<!-- MAIN WEBSITE -->
+
+
+<div id="app" class="hidden">
+
+
+
+<div class="sidebar">
+
+
+<h1>📚 Study Hub</h1>
+
+
+<button onclick="logout()">
+🚪 Logout
+</button>
+
+
+<button onclick="showPage('home')">
+🏠 Home
+</button>
+
+
+<button onclick="showPage('tasks')">
+✅ Tasks
+</button>
+
+
+<button onclick="showPage('schedule')">
+📅 Schedule
+</button>
+
+
+<button onclick="showPage('homework')">
+📝 Homework
+</button>
+
+
+<button onclick="showPage('calendar')">
+🗓 Calendar
+</button>
+
+
+<button onclick="showPage('notes')">
+📒 Notes
+</button>
+
+
+<button onclick="showPage('links')">
+🔗 Links
+</button>
+
+
+<button onclick="showPage('timer')">
+⏱ Timer
+</button>
+
+
+<button onclick="showPage('games')">
+🎮 Games
+</button>
+
+
+<button onclick="showPage('themes')">
+🎨 Themes
+</button>
+
+
+<button onclick="showPage('settings')">
+⚙ Settings
+</button>
+
+
+</div>
+
+
 
 
 
@@ -45,7 +153,10 @@
 
 <section id="home" class="page">
 
-<h2>Welcome Back 👋</h2>
+
+<h2>
+Welcome Back 👋
+</h2>
 
 
 <div class="card">
@@ -57,10 +168,11 @@
 </div>
 
 
-
 <div class="card">
 
-<h2>Daily Progress</h2>
+<h2>
+Daily Progress
+</h2>
 
 
 <div class="progress">
@@ -86,131 +198,28 @@
 
 <section id="tasks" class="page hidden">
 
+
 <h2>✅ Tasks</h2>
 
 
 <div class="card">
 
+
 <input id="taskInput" placeholder="Add task">
 
-<button onclick="addTask()">Add</button>
+
+<button onclick="addTask()">
+Add
+</button>
 
 
 <ul id="taskList"></ul>
 
-</div>
-
-</section>
-
-
-
-
-
-
-<section id="schedule" class="page hidden">
-
-<h2>📅 Schedule</h2>
-
-
-<div class="card">
-
-<table>
-
-<tr>
-
-<th>Time</th>
-<th>Monday</th>
-<th>Tuesday</th>
-<th>Wednesday</th>
-<th>Thursday</th>
-<th>Friday</th>
-
-</tr>
-
-
-<tr>
-<td>9:00</td>
-<td contenteditable></td>
-<td contenteditable></td>
-<td contenteditable></td>
-<td contenteditable></td>
-<td contenteditable></td>
-</tr>
-
-
-<tr>
-<td>12:00</td>
-<td contenteditable></td>
-<td contenteditable></td>
-<td contenteditable></td>
-<td contenteditable></td>
-<td contenteditable></td>
-</tr>
-
-
-<tr>
-<td>3:00</td>
-<td contenteditable></td>
-<td contenteditable></td>
-<td contenteditable></td>
-<td contenteditable></td>
-<td contenteditable></td>
-</tr>
-
-
-</table>
 
 </div>
 
-</section>
-
-
-
-
-
-
-
-
-<section id="homework" class="page hidden">
-
-<h2>📝 Homework</h2>
-
-<div class="card">
-
-<input id="homeworkInput" placeholder="Homework">
-
-<button onclick="addHomework()">Add</button>
-
-<ul id="homeworkList"></ul>
-
-</div>
 
 </section>
-
-
-
-
-
-
-
-
-<section id="calendar" class="page hidden">
-
-<h2>🗓 Calendar</h2>
-
-<div class="card">
-
-<input id="eventInput" placeholder="Event">
-
-<button onclick="addEvent()">Add</button>
-
-<ul id="eventList"></ul>
-
-</div>
-
-</section>
-
-
 
 
 
@@ -219,76 +228,28 @@
 
 <section id="notes" class="page hidden">
 
+
 <h2>📒 Notes</h2>
 
-<div class="card">
-
-<textarea id="notesArea" placeholder="Write notes..."></textarea>
-
-<button onclick="saveNotes()">Save</button>
-
-</div>
-
-</section>
-
-
-
-
-
-
-
-
-<section id="links" class="page hidden">
-
-<h2>🔗 Quick Links</h2>
 
 <div class="card">
 
-<input id="siteName" placeholder="Website name">
 
-<input id="siteURL" placeholder="Website URL">
+<textarea 
+id="notesArea"
+placeholder="Write notes...">
+</textarea>
 
-<button onclick="addWebsite()">Add</button>
 
-
-<div id="websiteList"></div>
+<button onclick="saveNotes()">
+Save
+</button>
 
 
 </div>
 
-</section>
-
-
-
-
-
-
-
-
-<section id="timer" class="page hidden">
-
-<h2>⏱ Study Timer</h2>
-
-
-<div class="card">
-
-<h1 id="timerDisplay">
-25:00
-</h1>
-
-
-<button onclick="startTimer()">Start</button>
-
-<button onclick="pauseTimer()">Pause</button>
-
-<button onclick="resetTimer()">Reset</button>
-
-
-</div>
 
 </section>
-
-
 
 
 
@@ -297,10 +258,11 @@
 
 <section id="games" class="page hidden">
 
+
 <h2>🎮 Games</h2>
 
 
-<div class="card gameMenu">
+<div class="card">
 
 
 <button onclick="showGame('snake')">
@@ -317,14 +279,20 @@
 
 
 
-
 <div id="snakeGame" class="gameBox hidden">
 
-<h3>🐍 Snake</h3>
 
-<canvas id="snakeCanvas" width="400" height="400"></canvas>
+<h3>
+🐍 Snake
+</h3>
 
-<p>Arrow keys to move</p>
+
+<canvas 
+id="snakeCanvas"
+width="400"
+height="400">
+</canvas>
+
 
 </div>
 
@@ -334,43 +302,23 @@
 
 <div id="slopeGame" class="gameBox hidden">
 
-<h3>⚪ Slope</h3>
 
-<canvas id="slopeCanvas" width="500" height="400"></canvas>
+<h3>
+⚪ Slope
+</h3>
 
-<p>Arrow keys to move</p>
+
+<canvas
+id="slopeCanvas"
+width="500"
+height="400">
+</canvas>
+
 
 </div>
 
 
 </section>
-
-
-
-
-
-
-
-
-<section id="themes" class="page hidden">
-
-<h2>🎨 Themes</h2>
-
-
-<div class="card">
-
-<button onclick="theme('blue')">Blue</button>
-
-<button onclick="theme('purple')">Purple</button>
-
-<button onclick="theme('green')">Green</button>
-
-<button onclick="theme('black')">OLED</button>
-
-</div>
-
-</section>
-
 
 
 
@@ -381,15 +329,17 @@
 <section id="settings" class="page hidden">
 
 
-<h2>⚙ Settings</h2>
+<h2>
+⚙ Settings
+</h2>
 
 
 <div class="card">
 
 
-<button onclick="clearData()">
-Clear Data
-</button>
+<p>
+Account settings coming soon
+</p>
 
 
 </div>
@@ -400,8 +350,11 @@ Clear Data
 
 
 
+</div>
+
 
 </div>
+
 
 
 </body>
