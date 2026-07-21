@@ -1,41 +1,260 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Study Hub 2.0</title>
 
-<title>Study Hub</title>
-
-<link rel="stylesheet" href="style.css">
-
-<script defer src="script.js"></script>
-
+    <link rel="stylesheet" href="css/style.css">
 </head>
 
 <body>
 
+<div class="app">
 
-<div id="app">
+    <!-- SIDEBAR -->
+    <aside class="sidebar">
+
+        <div class="logo">
+            📚 Study Hub
+            <span>2.0</span>
+        </div>
 
 
-<div class="sidebar">
+        <nav>
 
-<h1>📚 Study Hub</h1>
+            <button class="nav-btn active" onclick="showPage('dashboard')">
+                🏠 Dashboard
+            </button>
+
+            <button class="nav-btn" onclick="showPage('learning')">
+                📖 Learning Plans
+            </button>
+
+            <button class="nav-btn" onclick="showPage('links')">
+                🔗 Quick Links
+            </button>
+
+            <button class="nav-btn" onclick="showPage('settings')">
+                ⚙️ Settings
+            </button>
+
+        </nav>
 
 
-<button onclick="showPage('home')">🏠 Home</button>
+        <button class="theme-btn" onclick="toggleTheme()">
+            🌙 Toggle Theme
+        </button>
 
-<button onclick="showPage('tasks')">✅ Tasks</button>
+    </aside>
 
-<button onclick="showPage('notes')">📒 Notes</button>
 
-<button onclick="showPage('learning')">📚 Learning Plan</button>
 
-<button onclick="showPage('uno')">🎴 UNO Score</button>
+    <!-- MAIN AREA -->
+    <main class="main">
 
-<button onclick="showPage('settings')">⚙ Settings</button>
+
+        <!-- DASHBOARD -->
+        <section id="dashboard" class="page active">
+
+            <h1>
+                Welcome back 👋
+            </h1>
+
+
+            <div class="dashboard-grid">
+
+
+                <div class="card">
+
+                    <h2>
+                        📅 Today
+                    </h2>
+
+                    <p id="date"></p>
+
+                    <p id="clock"></p>
+
+                </div>
+
+
+
+                <div class="card">
+
+                    <h2>
+                        📈 Progress
+                    </h2>
+
+                    <div class="progress-box">
+
+                        <div id="overallProgress">
+                            0%
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <div class="card">
+
+                    <h2>
+                        📚 Current Plan
+                    </h2>
+
+                    <p id="currentPlan">
+                        No plan selected
+                    </p>
+
+                </div>
+
+
+            </div>
+
+
+        </section>
+
+
+
+
+
+        <!-- LEARNING PLANS -->
+        <section id="learning" class="page">
+
+
+            <div class="page-header">
+
+                <h1>
+                    📖 Learning Plans
+                </h1>
+
+
+                <button onclick="createPlan()">
+                    + New Plan
+                </button>
+
+            </div>
+
+
+
+            <div class="plan-manager">
+
+
+                <label>
+                    Current Plan:
+                </label>
+
+
+                <select id="planSelector"
+                    onchange="changePlan(this.value)">
+                </select>
+
+
+            </div>
+
+
+
+
+            <div id="learningContainer">
+
+            </div>
+
+
+
+        </section>
+
+
+
+
+
+        <!-- QUICK LINKS -->
+        <section id="links" class="page">
+
+
+            <h1>
+                🔗 Quick Links
+            </h1>
+
+
+            <div class="links-grid">
+
+
+                <a href="https://chat.openai.com" target="_blank">
+                    🤖 ChatGPT
+                </a>
+
+
+                <a href="https://docs.google.com" target="_blank">
+                    📄 Google Docs
+                </a>
+
+
+                <a href="https://drive.google.com" target="_blank">
+                    ☁️ Google Drive
+                </a>
+
+
+                <a href="https://youtube.com" target="_blank">
+                    ▶️ YouTube
+                </a>
+
+
+                <a href="https://spotify.com" target="_blank">
+                    🎵 Spotify
+                </a>
+
+
+                <a href="https://github.com" target="_blank">
+                    💻 GitHub
+                </a>
+
+
+            </div>
+
+
+        </section>
+
+
+
+
+
+
+        <!-- SETTINGS -->
+        <section id="settings" class="page">
+
+
+            <h1>
+                ⚙️ Settings
+            </h1>
+
+
+            <div class="card">
+
+
+                <h2>
+                    Study Hub
+                </h2>
+
+
+                <p>
+                    Version 2.0 Foundation
+                </p>
+
+
+                <p>
+                    Your data is saved automatically on this device.
+                </p>
+
+
+            </div>
+
+
+        </section>
+
+
+
+    </main>
 
 
 </div>
@@ -44,463 +263,11 @@
 
 
 
-<div class="main">
-
-
-
-<section id="home" class="page">
-
-<h2>Welcome Back 👋</h2>
-
-
-<div class="card">
-
-<h3 id="date"></h3>
-
-<h1 id="time"></h1>
-
-</div>
-
-
-<div class="card">
-
-<h2>Study Hub</h2>
-
-<p>
-Track your learning, tasks, notes and games all in one place.
-</p>
-
-</div>
-
-</section>
-
-
-
-
-
-
-
-<section id="tasks" class="page hidden">
-
-<h2>✅ Tasks</h2>
-
-
-<div class="card">
-
-
-<input id="taskInput" placeholder="Add a task">
-
-
-<button onclick="addTask()">
-Add
-</button>
-
-
-<ul id="taskList"></ul>
-
-
-</div>
-
-
-</section>
-
-
-
-
-
-
-
-<section id="notes" class="page hidden">
-
-
-<h2>📒 Notes</h2>
-
-
-<div class="card">
-
-
-<textarea 
-id="notesArea"
-placeholder="Write notes...">
-</textarea>
-
-
-<button onclick="saveNotes()">
-Save Notes
-</button>
-
-
-</div>
-
-
-</section>
-
-
-
-
-
-
-
-<section id="learning" class="page hidden">
-
-
-<h2>📚 Learning Plan</h2>
-
-
-<div class="learningButtons">
-
-
-<button onclick="showLearning('reading')">
-📖 Reading
-</button>
-
-
-<button onclick="showLearning('writing')">
-✍️ Writing
-</button>
-
-
-<button onclick="showLearning('numeracy')">
-🔢 Numeracy
-</button>
-
-
-<button onclick="showLearning('careers')">
-💼 Careers Education
-</button>
-
-
-<button onclick="showLearning('relationships')">
-🤝 Respectful Relationships
-</button>
-
-
-</div>
-
-
-
-
-
-<div id="reading" class="learningSection hidden">
-
-
-<h2>📖 Reading</h2>
-
-
-<textarea id="readingText"
-placeholder="What are you working on?"></textarea>
-
-
-<h3>Weekly Checklist</h3>
-
-
-<label><input type="checkbox"> Monday</label>
-<label><input type="checkbox"> Tuesday</label>
-<label><input type="checkbox"> Wednesday</label>
-<label><input type="checkbox"> Thursday</label>
-<label><input type="checkbox"> Friday</label>
-<label><input type="checkbox"> Saturday</label>
-<label><input type="checkbox"> Sunday</label>
-
-
-</div>
-
-
-
-
-
-<div id="writing" class="learningSection hidden">
-
-
-<h2>✍️ Writing</h2>
-
-
-<textarea id="writingText"
-placeholder="What are you working on?"></textarea>
-
-
-<h3>Weekly Checklist</h3>
-
-
-<label><input type="checkbox"> Monday</label>
-<label><input type="checkbox"> Tuesday</label>
-<label><input type="checkbox"> Wednesday</label>
-<label><input type="checkbox"> Thursday</label>
-<label><input type="checkbox"> Friday</label>
-<label><input type="checkbox"> Saturday</label>
-<label><input type="checkbox"> Sunday</label>
-
-
-</div>
-
-
-
-
-
-<div id="numeracy" class="learningSection hidden">
-
-
-<h2>🔢 Numeracy</h2>
-
-
-<textarea id="numeracyText"
-placeholder="What are you working on?"></textarea>
-
-
-<h3>Weekly Checklist</h3>
-
-
-<label><input type="checkbox"> Monday</label>
-<label><input type="checkbox"> Tuesday</label>
-<label><input type="checkbox"> Wednesday</label>
-<label><input type="checkbox"> Thursday</label>
-<label><input type="checkbox"> Friday</label>
-<label><input type="checkbox"> Saturday</label>
-<label><input type="checkbox"> Sunday</label>
-
-
-</div><div id="careers" class="learningSection hidden">
-
-
-<h2>💼 Careers Education</h2>
-
-
-<textarea id="careersText"
-placeholder="What are your career goals and skills you are building?"></textarea>
-
-
-<h3>Weekly Checklist</h3>
-
-
-<label><input type="checkbox"> Monday</label>
-<label><input type="checkbox"> Tuesday</label>
-<label><input type="checkbox"> Wednesday</label>
-<label><input type="checkbox"> Thursday</label>
-<label><input type="checkbox"> Friday</label>
-<label><input type="checkbox"> Saturday</label>
-<label><input type="checkbox"> Sunday</label>
-
-
-</div>
-
-
-
-
-
-
-
-<div id="relationships" class="learningSection hidden">
-
-
-<h2>🤝 Respectful Relationships</h2>
-
-
-<textarea id="relationshipsText"
-placeholder="Goals, reflections and things you are learning..."></textarea>
-
-
-<h3>Weekly Checklist</h3>
-
-
-<label><input type="checkbox"> Monday</label>
-<label><input type="checkbox"> Tuesday</label>
-<label><input type="checkbox"> Wednesday</label>
-<label><input type="checkbox"> Thursday</label>
-<label><input type="checkbox"> Friday</label>
-<label><input type="checkbox"> Saturday</label>
-<label><input type="checkbox"> Sunday</label>
-
-
-</div>
-
-
-
-<button onclick="saveLearning()">
-💾 Save Learning Plan
-</button>
-
-
-</section>
-
-
-
-
-
-
-
-
-
-<section id="uno" class="page hidden">
-
-
-<h2>🎴 UNO Score Sheet</h2>
-
-
-<div class="card">
-
-
-<h3>Add Player</h3>
-
-
-<input id="unoPlayerName" placeholder="Player name">
-
-
-<button onclick="addUnoPlayer()">
-➕ Add Player
-</button>
-
-
-</div>
-
-
-
-
-
-<div class="card">
-
-
-<h3>Players</h3>
-
-
-<table>
-
-
-<thead>
-
-<tr>
-
-<th>Name</th>
-
-<th>Round Score</th>
-
-<th>Total</th>
-
-<th></th>
-
-</tr>
-
-</thead>
-
-
-<tbody id="unoPlayers">
-
-</tbody>
-
-
-</table>
-
-
-</div>
-
-
-
-
-
-
-
-<div class="card">
-
-
-<h3>Stats</h3>
-
-
-<p id="unoWinner">
-🏆 Winner: -
-</p>
-
-
-<p id="unoRound">
-🎲 Round: 1
-</p>
-
-
-<p id="unoHighScore">
-🔥 Highest Round: -
-</p>
-
-
-<p id="unoAverage">
-📊 Average Score: -
-</p>
-
-
-</div>
-
-
-
-
-
-
-
-<div class="card">
-
-
-<button onclick="nextUnoRound()">
-➡️ Next Round
-</button>
-
-
-<button onclick="randomUnoPlayer()">
-🎲 Random Player
-</button>
-
-
-<button onclick="unoChallenge()">
-😂 UNO Challenge
-</button>
-
-
-<button onclick="resetUno()">
-🗑 Reset Game
-</button>
-
-
-<h3 id="unoFun"></h3>
-
-
-</div>
-
-
-
-</section>
-
-
-
-
-
-
-
-
-
-<section id="settings" class="page hidden">
-
-
-<h2>⚙ Settings</h2>
-
-
-<div class="card">
-
-
-<p>
-More settings coming soon.
-</p>
-
-
-</div>
-
-
-</section>
-
-
-
-
-
-
-</div>
-
-</div>
+<script src="js/storage.js"></script>
+<script src="js/dashboard.js"></script>
+<script src="js/learning.js"></script>
+<script src="js/script.js"></script>
 
 
 </body>
-
 </html>
